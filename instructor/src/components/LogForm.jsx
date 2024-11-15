@@ -1,34 +1,27 @@
 import React, { useState } from 'react';
 
-function LogForm() {
-  const [minutes, setMinutes] = useState('');
-  const [activity, setActivity] = useState('');
+const LogForm = ({ addTask }) => {
+  const [taskName, setTaskName] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Placeholder for form submission logic
-    console.log(`Logged ${minutes} minutes of ${activity}`);
-    setMinutes('');
-    setActivity('');
+    if (taskName.trim() === '') return;
+
+    addTask({ id: Date.now(), name: taskName }); // Create and pass new task
+    setTaskName(''); // Reset the input field
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <input
-        type="number"
-        value={minutes}
-        onChange={(e) => setMinutes(e.target.value)}
-        placeholder="Minutes"
-      />
-      <input
         type="text"
-        value={activity}
-        onChange={(e) => setActivity(e.target.value)}
-        placeholder="Activity"
+        value={taskName}
+        onChange={(e) => setTaskName(e.target.value)}
+        placeholder="Add a new task"
       />
-      <button type="submit">Add Log</button>
+      <button type="submit">Add Task</button>
     </form>
   );
-}
+};
 
 export default LogForm;

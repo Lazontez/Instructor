@@ -1,17 +1,24 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
-export const ProgressContext = createContext();
+// Create the context
+const ProgressContext = createContext();
 
-export function ProgressProvider({ children }) {
-  const [progress, setProgress] = useState({
-    goalMinutes: 300,
-    currentMinutes: 0,
-    logs: []
-  });
+// Context provider
+export const ProgressProvider = ({ children }) => {
+  const [tasks, setTasks] = useState([]);
 
   return (
-    <ProgressContext.Provider value={{ progress, setProgress }}>
+    <ProgressContext.Provider value={{ tasks, setTasks }}>
       {children}
     </ProgressContext.Provider>
   );
-}
+};
+
+// Custom hook for consuming the context
+export const useProgress = () => {
+  const context = useContext(ProgressContext);
+  if (!context) {
+    throw new Error('useProgress must be used within a ProgressProvider');
+  }
+  return context;
+};
