@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 const LogForm = ({ addTask }) => {
-  const [taskName, setTaskName] = useState('');
+const [taskName, setTaskName] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();

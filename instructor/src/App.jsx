@@ -9,16 +9,18 @@ function App() {
     setTasks([...tasks, newTask]); // Add the new task to the existing array
   };
 
+   // Remove a task from the list
+   const removeTask = (taskId) => {
+    setTasks(tasks.filter((task) => task.id !== taskId));
+  };
+
   return (
     <div>
       <h1>Guitar Lesson Tracker</h1>
       <LogForm addTask={addTask} />
-      <TaskList tasks={tasks} />
+      <TaskList tasks={tasks} removeTask={removeTask} />
     </div>
   );
 }
 
 export default App;
-
-
-
