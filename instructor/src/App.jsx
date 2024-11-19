@@ -1,37 +1,69 @@
 import React, { useState } from 'react';
-import LogForm from './components/LogForm.jsx';
-import TaskList from './components/TaskLists.jsx';
+import LogForm from './components/LogForm';
+import TaskList from './components/TaskLists';
+import TaskEditModal from './components/TaskEditModal'; // Importing the modal component
 
 function App() {
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState([
+    { id: 1, name: 'Practice scales', description: 'Practice major scales', status: 'in-progress' },
+    { id: 2, name: 'Learn chords', description: 'Learn basic chord progressions', status: 'in-progress' },
+  ]);
+  const [modalVisible, setModalVisible] = useState(false); // State to control modal visibility
+  const [taskToEdit, setTaskToEdit] = useState(null); // State for the task being edited
 
   const addTask = (newTask) => {
     setTasks([...tasks, newTask]); // Add the new task to the existing array
   };
 
-  // Remove a task from the list
   const removeTask = (taskId) => {
-    setTasks(tasks.filter((task) => task.id !== taskId));
+    setTasks(tasks.filter((task) => task.id !== taskId)); // Remove the task from the array
   };
 
-  function editTask(taskId, newTaskText) {
-    setTasks(tasks.map((task) => {
-      // If task.id matches taskId, update the task
-      if (task.id === taskId) {
-        return { ...task, name: newTaskText }; // Return updated        
-      }
-      // If task.id doesn't match taskId, return the task as is
-      return task;
-    }));
-  }
+  const editTask = (taskId, newText) => {
+    setTasks(
+      tasks.map((task) =>
+        task.id === taskId ? { ...task, name: newText } : task
+      )
+    );
+  };
+
+  const openEditModal = (task) => {
+    setTaskToEdit(task); // Set the task to edit
+    setModalVisible(true); // Show the modal
+  };
+
+  const closeEditModal = () => {
+    setModalVisible(false); // Hide the modal
+    setTaskToEdit(null); // Clear the task to edit
+  };
+
+  const handleSaveEdit = (updatedTask) => {
+    setTasks(tasks.map(task => task.id === updatedTask.id ? updatedTask : task)); // Update the task
+    closeEditModal(); // Close the modal after saving
+  };
 
   return (
-    <div>
-      <h1>Task Tracker</h1>
+    <div className="app">
+      <h1>Guitar Lesson Tracker</h1>
       <LogForm addTask={addTask} />
-      <TaskList tasks={tasks} removeTask={removeTask} editTask={editTask} />
+      <TaskList
+        tasks={tasks}
+        removeTask={removeTask}
+        editTask={openEditModal} // Pass the openEditModal function
+      />
+
+      {/* Edit Task Modal */}
+      {modalVisible && taskToEdit && (
+        <TaskEditModal
+          isOpen={modalVisible}
+          task={taskToEdit}
+          onSave={handleSaveEdit}
+          onClose={closeEditModal}
+        />
+      )}
     </div>
   );
 }
 
 export default App;
+

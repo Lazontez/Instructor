@@ -1,0 +1,141 @@
+/* Modal Overlay */
+.task-edit-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.3); /* Dark background with transparency */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure modal is on top of other content */
+    animation: fadeIn 0.3s ease-out; /* Smooth fade-in effect */
+  }
+  
+  /* Modal Content */
+  .task-edit-modal__content {
+    background-color: #ffffff;
+    padding: 1.5rem 2rem;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 450px; /* Adjust the size as needed */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    animation: slideUp 0.3s ease-out; /* Smooth slide-up effect */
+  }
+  
+  /* Modal Header */
+  .task-edit-modal__header {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #333;
+    text-align: center;
+    margin-bottom: 1rem;
+    letter-spacing: 0.5px;
+  }
+  
+  /* Task Name Input */
+  .task-edit-modal__input,
+  .task-edit-modal__textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 1.2rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: #f7f7f7;
+    font-size: 1rem;
+    color: #333;
+    transition: border-color 0.3s ease;
+    outline: none;
+  }
+  
+  /* Focus effect for input fields */
+  .task-edit-modal__input:focus,
+  .task-edit-modal__textarea:focus {
+    border-color: #0078d4; /* Blue border on focus */
+    box-shadow: 0 0 8px rgba(0, 120, 212, 0.2); /* Soft blue glow */
+  }
+  
+  /* Textarea (for task description) */
+  .task-edit-modal__textarea {
+    height: 120px;
+    resize: none;
+  }
+  
+  /* Checkbox Label */
+  .task-edit-modal__checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.9rem;
+    color: #666;
+    cursor: pointer;
+    font-weight: 500;
+  }
+  
+  /* Buttons Container */
+  .task-edit-modal__buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+  
+  /* Button Styles */
+  .task-edit-modal__save-btn,
+  .task-edit-modal__cancel-btn {
+    padding: 12px 18px;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    width: 48%; /* Ensure buttons are equal width */
+    transition: background-color 0.3s ease;
+    letter-spacing: 1px;
+  }
+  
+  /* Save Button */
+  .task-edit-modal__save-btn {
+    background-color: #0078d4; /* Blue */
+    color: white;
+  }
+  
+  .task-edit-modal__save-btn:hover {
+    background-color: #005bb5; /* Darker blue on hover */
+  }
+  
+  /* Cancel Button */
+  .task-edit-modal__cancel-btn {
+    background-color: #f1f1f1;
+    color: #555;
+    border: 1px solid #ddd;
+  }
+  
+  .task-edit-modal__cancel-btn:hover {
+    background-color: #e2e2e2; /* Lighter on hover */
+  }
+  
+  /* Modal Animations */
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideUp {
+    0% {
+      transform: translateY(50px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
