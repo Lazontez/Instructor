@@ -5,8 +5,8 @@ import TaskEditModal from './components/TaskEditModal'; // Importing the modal c
 
 function App() {
   const [tasks, setTasks] = useState([
-    { id: 1, name: 'Practice scales', description: 'Practice major scales', status: 'in-progress' },
-    { id: 2, name: 'Learn chords', description: 'Learn basic chord progressions', status: 'in-progress' },
+    { id: 1, name: 'Practice scales', description: 'Practice major scales', status: 'in-progress', progress: 50 },
+    { id: 2, name: 'Learn chords', description: 'Learn basic chord progressions', status: 'in-progress', progress: 20 },
   ]);
   const [modalVisible, setModalVisible] = useState(false); // State to control modal visibility
   const [taskToEdit, setTaskToEdit] = useState(null); // State for the task being edited
@@ -17,14 +17,6 @@ function App() {
 
   const removeTask = (taskId) => {
     setTasks(tasks.filter((task) => task.id !== taskId)); // Remove the task from the array
-  };
-
-  const editTask = (taskId, newText) => {
-    setTasks(
-      tasks.map((task) =>
-        task.id === taskId ? { ...task, name: newText } : task
-      )
-    );
   };
 
   const openEditModal = (task) => {
@@ -42,6 +34,14 @@ function App() {
     closeEditModal(); // Close the modal after saving
   };
 
+  const updateTaskProgress = (taskId, newProgress) => {
+    setTasks(tasks.map((task) =>
+      task.id === taskId ? { ...task, progress: newProgress } : task
+    ));
+  };
+
+  
+
   return (
     <div className="app">
       <h1>Guitar Lesson Tracker</h1>
@@ -49,7 +49,10 @@ function App() {
       <TaskList
         tasks={tasks}
         removeTask={removeTask}
-        editTask={openEditModal} // Pass the openEditModal function
+        editTask={openEditModal}
+        setTasks={setTasks}
+        updateTaskProgress={updateTaskProgress}
+         // Pass the openEditModal function
       />
 
       {/* Edit Task Modal */}

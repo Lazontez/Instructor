@@ -1,42 +1,168 @@
-.task-list {
-  max-width: 500px;
-  margin: 20px auto;
-  padding: 20px;
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+/* General Reset */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.task-item {
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: #f0f2f5; /* Instagram/Facebook light background */
+  color: #1c1e21; /* Dark text color for readability */
+}
+
+.task-list {
+  max-width: 100%;
+  margin: 20px auto;
+  padding: 0 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-x: hidden;
+}
+
+.task-list__empty {
+  color: #606770; /* Light gray text */
+  font-size: 1rem;
+  text-align: center;
+}
+
+/* Task List Item */
+.task-list__item {
+  background-color: #ffffff; /* White background for tasks */
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Soft shadow effect */
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px;
-  border-bottom: 1px solid #e0e0e0;
-  font-size: 1rem;
+  flex-wrap: wrap;
+  transition: all 0.3s ease;
+}
+
+.task-list__item:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Slightly increased shadow on hover */
+}
+
+/* Task Name */
+.task-list__item-name {
+  font-size: 1.1rem;
+  font-weight: 500;
   color: #333;
+  flex-grow: 1;
+  margin-right: 10px;
+  word-wrap: break-word;
 }
 
-.task-item:last-child {
-  border-bottom: none;
+/* Edit & Delete Buttons */
+/* Button container */
+.task-list__item-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  align-items: center;
 }
 
-.task-item button {
-  background-color: #f44336;
+/* Edit Button */
+.task-list__item-edit-btn {
+  background-color: #007bff; /* Blue button */
   color: white;
   border: none;
-  border-radius: 50%;
   padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 4px;
   cursor: pointer;
-  font-size: 1.2rem;
   transition: background-color 0.3s ease;
 }
 
-.task-item button:hover {
-  background-color: #d32f2f;
+/* Hover effect for Edit Button */
+.task-list__item-edit-btn:hover {
+  background-color: #0056b3; /* Darker blue on hover */
 }
 
-.task-item button:disabled {
-  background-color: #e0e0e0;
-  cursor: not-allowed;
+/* Active state for Edit Button */
+.task-list__item-edit-btn:active {
+  background-color: #004085; /* Even darker blue when clicked */
+}
+
+/* Remove Button */
+.task-list__item-delete-btn {
+  background-color: #dc3545; /* Red button */
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Hover effect for Remove Button */
+.task-list__item-delete-btn:hover {
+  background-color: #c82333; /* Darker red on hover */
+}
+
+/* Active state for Remove Button */
+.task-list__item-delete-btn:active {
+  background-color: #bd2130; /* Even darker red when clicked */
+}
+
+/* Progress Bar Container */
+.task-list__item-progress-container {
+  width: 100%;
+  background-color: #e4e6eb; /* Light background for progress bar */
+  height: 8px;
+  border-radius: 20px;
+  margin-top: 10px;
+}
+
+.task-list__item-progress {
+  height: 100%;
+  border-radius: 20px;
+  background-color: #4caf50; /* Green progress bar */
+  width: 0%; /* Starts at 0% */
+  transition: width 0.5s ease-in-out;
+}
+
+.task-list__item-progress-text {
+  font-size: 0.9rem;
+  color: #606770;
+  margin-top: 5px;
+  text-align: center;
+}
+
+/* Responsive Styles */
+@media (min-width: 768px) {
+  .task-list {
+    max-width: 700px;
+  }
+}
+
+@media (max-width: 480px) {
+  .task-list__item {
+    padding: 12px;
+  }
+
+  .task-list__item-name {
+    font-size: 1rem;
+  }
+
+  .task-list__item-edit-btn,
+  .task-list__item-delete-btn {
+    font-size: 0.9rem;
+  }
+
+  .task-list__item-progress-container {
+    height: 6px;
+  }
+
+  .task-list__item-progress {
+    height: 6px;
+  }
+
+  .task-list__item-progress-text {
+    font-size: 0.8rem;
+  }
 }

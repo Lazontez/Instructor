@@ -48,7 +48,7 @@ const TaskEditModal = ({ isOpen, task, onClose, onSave }) => {
           value={taskText}
           onChange={handleTaskTextChange}
           placeholder="Edit task name"
-          maxLength={50}
+          maxLength={35}
         />
 
         {/* Task Description Textarea */}

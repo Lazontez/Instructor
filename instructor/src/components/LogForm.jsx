@@ -30,6 +30,7 @@ function LogForm({ addTask }) {
         name: taskText,
         description: description,
         status: isCompleted ? 'completed' : 'in-progress',
+        progress: 75
       });
       setTaskText('');
       setDescription('');
@@ -46,7 +47,7 @@ function LogForm({ addTask }) {
         value={taskText}
         onChange={handleInputChange}
         placeholder="Add a task"
-        maxLength={50}
+        maxLength={35}
       />
 
       {/* Description Textarea */}
