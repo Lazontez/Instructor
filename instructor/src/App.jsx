@@ -27,7 +27,7 @@ function App() {
 
   return (
     <div>
-      <h1>Guitar Lesson Tracker</h1>
+      <h1>Task Tracker</h1>
       <LogForm addTask={addTask} />
       <TaskList tasks={tasks} removeTask={removeTask} editTask={editTask} />
     </div>

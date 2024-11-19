@@ -18,14 +18,23 @@ function LogForm({ addTask }) {
 
   return (
     <form className="log-form" onSubmit={handleSubmit}>
+      {/* Input Field */}
       <input
-        className="log-form__input-field"
+        className="log-form__input"
         type="text"
         value={taskText}
         onChange={handleInputChange}
         placeholder="Add a new task"
       />
-      <button className="log-form__submit-btn" type="submit">Add Task</button>
+      
+      {/* Submit Button */}
+      <button
+        className="log-form__submit-btn"
+        type="submit"
+        disabled={!taskText.trim()}
+      >
+        Add Task
+      </button>
     </form>
   );
 };
