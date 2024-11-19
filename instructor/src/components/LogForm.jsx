@@ -1,25 +1,31 @@
 import React, { useState } from 'react';
+import '../utils/LogForm.css'; // Import the CSS for styling
 
-const LogForm = ({ addTask }) => {
-const [taskName, setTaskName] = useState('');
+function LogForm({ addTask }) {
+  const [taskText, setTaskText] = useState('');
+
+  const handleInputChange = (e) => {
+    setTaskText(e.target.value);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (taskName.trim() === '') return;
-
-    addTask({ id: Date.now(), name: taskName }); // Create and pass new task
-    setTaskName(''); // Reset the input field
+    if (taskText.trim()) {
+      addTask({ id: Date.now(), name: taskText });
+      setTaskText('');
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="log-form" onSubmit={handleSubmit}>
       <input
+        className="log-form__input-field"
         type="text"
-        value={taskName}
-        onChange={(e) => setTaskName(e.target.value)}
+        value={taskText}
+        onChange={handleInputChange}
         placeholder="Add a new task"
       />
-      <button type="submit">Add Task</button>
+      <button className="log-form__submit-btn" type="submit">Add Task</button>
     </form>
   );
 };

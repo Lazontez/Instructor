@@ -1,4 +1,5 @@
 import React from 'react';
+import '../utils/Task.css'; // Import the CSS for styling
 
 const TaskList = ({ tasks , removeTask, editTask }) => {
 
@@ -13,15 +14,24 @@ const TaskList = ({ tasks , removeTask, editTask }) => {
   }
 
   return (
-   <ul>
+    <div className="task-list">
       {tasks.map((task) => (
-        <li key={task.id}>{task.name}  
-        <button onClick={() => removeTask(task.id)}>Delete</button>
-        <button onClick={() => editTask(task.id, getNewText())}>Edit</button>{/* This button removes the task */} 
-
-        </li>      
+        <div key={task.id} className="task-item">
+          <span className="task-item__text">{task.name}</span>
+          <button
+            className="task-item__button task-item__button--edit"
+            onClick={() => editTask(task.id, getNewText())}
+          >
+            Edit
+          </button>
+          <button
+            className="task-item__button task-item__button--remove"
+            onClick={() => removeTask(task.id)}>
+            Remove
+          </button>
+        </div>
       ))}
-    </ul>    
+    </div>
   );
 };
 
