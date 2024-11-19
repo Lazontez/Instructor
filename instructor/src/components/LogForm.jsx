@@ -5,7 +5,11 @@ function LogForm({ addTask }) {
   const [taskText, setTaskText] = useState('');
 
   const handleInputChange = (e) => {
-    setTaskText(e.target.value);
+    const regex = /^[a-zA-Z0-9\s.,!?()_-]*$/;
+    const value = e.target.value;
+    if (regex.test(value)) {
+      setTaskText(value);
+    }
   };
 
   const handleSubmit = (e) => {
