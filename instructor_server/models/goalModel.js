@@ -1,11 +1,20 @@
 const mongoose = require('mongoose');
 
+const subtaskSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  status: { type: String, enum: ['not-started', 'in-progress', 'completed'], default: 'not-started' },
+});
+
 const goalSchema = new mongoose.Schema({
   name: { type: String, required: true },
   description: { type: String },
-  completed: { type: Boolean, default: false },
-  progress: { type: Number, default: 0 },
-  subtasks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Subtask' }]
+  subtasks: [subtaskSchema],
+//   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+   // Link to user
 });
 
-module.exports = mongoose.model('Goal', goalSchema);
+const Goal = mongoose.model('Goal', goalSchema);
+
+module.exports = Goal;
+
+
