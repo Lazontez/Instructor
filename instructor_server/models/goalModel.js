@@ -9,8 +9,7 @@ const goalSchema = new mongoose.Schema({
   name: { type: String, required: true },
   description: { type: String },
   subtasks: [subtaskSchema],
-//   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-   // Link to user
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, // Link to user
 });
 
 const Goal = mongoose.model('Goal', goalSchema);

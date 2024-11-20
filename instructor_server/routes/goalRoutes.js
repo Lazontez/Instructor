@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const Goal = require('../models/goalModel');
+const mongoose = require('mongoose')
+const testID = new mongoose.Types.ObjectId(); 
+// Test Data Above For UserID
 
 // Create a new goal
 router.post('/', async (req, res) => {
@@ -11,14 +14,14 @@ router.post('/', async (req, res) => {
     const newGoal = new Goal({
       name,
       description,
-      userId,
+      userId: testID,
       subtasks,
     });
 
     await newGoal.save();
     res.status(201).json(newGoal);
   } catch (error) {
-    console.log(error)
+    console.log
     res.status(500).json({ message: 'Failed to create goal' });
   }
 });
