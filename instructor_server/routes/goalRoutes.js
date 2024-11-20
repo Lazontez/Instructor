@@ -6,7 +6,7 @@ const testID = new mongoose.Types.ObjectId();
 // Test Data Above For UserID
 
 // Create a new goal
-router.post('/', async (req, res) => {
+router.post('/c', async (req, res) => {
     console.log(req.body)
   try {
     const { name, description, userId, subtasks } = req.body;
@@ -16,6 +16,7 @@ router.post('/', async (req, res) => {
       description,
       userId: testID,
       subtasks,
+      goalId: '5'
     });
 
     await newGoal.save();
@@ -25,9 +26,25 @@ router.post('/', async (req, res) => {
     res.status(500).json({ message: 'Failed to create goal' });
   }
 });
+// Remove a goal
+router.delete('/r/:goalId', async (req, res) => {
+  try {
+    const result = await Goal.deleteOne({ _id: req.params.goalId });
+
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ message: 'Goal not found' });
+    }
+
+    res.status(200).json({ message: 'Goal deleted successfully' });
+  } catch (err) {
+    console.error(err); // Log the error for debugging
+    res.status(500).json({ message: 'Failed to delete goal', error: err.message });
+  }
+});
+
 
 // Get all goals for a user
-router.get('/:userId', async (req, res) => {
+router.get('g/:userId', async (req, res) => {
   try {
     const goals = await Goal.find({ userId: req.params.userId });
     res.json(goals);

@@ -8,6 +8,7 @@ const subtaskSchema = new mongoose.Schema({
 const goalSchema = new mongoose.Schema({
   name: { type: String, required: true },
   description: { type: String },
+  goalId: {type: String, required: true} ,
   subtasks: [subtaskSchema],
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, // Link to user
 });
