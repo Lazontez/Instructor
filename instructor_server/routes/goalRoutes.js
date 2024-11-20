@@ -42,9 +42,23 @@ router.delete('/r/:goalId', async (req, res) => {
   }
 });
 
+// Update a Goal
+router.put('/u/:goalId', async (req, res) => {
+  const { goalId } = req.params;
+  const updatedData = req.body;
+  try {
+    const updatedGoal = await Goal.findByIdAndUpdate(goalId, updatedData, { new: true });
+    if (!updatedGoal) {
+      return res.status(404).json({ message: 'Goal not found' });
+    }
+    res.status(200).json(updatedGoal);
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to update goal', error: err.message });
+  }
+});
 
 // Get all goals for a user
-router.get('g/:userId', async (req, res) => {
+router.get('/g/:userId', async (req, res) => {
   try {
     const goals = await Goal.find({ userId: req.params.userId });
     res.json(goals);
