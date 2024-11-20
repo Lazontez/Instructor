@@ -14,7 +14,7 @@ function App() {
       subtasks: [
         { id: 1, name: "Open Chords", status: 'in-progress' },
         { id: 2, name: "Barre Chords", status: 'in-progress' },
-        { id: 2, name: "Barre Chords", status: 'completed' },
+        { id: 3, name: "Barre Chords", status: 'completed' },
     ],
     },
   ]);
