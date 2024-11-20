@@ -5,8 +5,18 @@ import TaskEditModal from './components/TaskEditModal'; // Importing the modal c
 
 function App() {
   const [tasks, setTasks] = useState([
-    { id: 1, name: 'Practice scales', description: 'Practice major scales', status: 'in-progress', progress: 50 },
-    { id: 2, name: 'Learn chords', description: 'Learn basic chord progressions', status: 'in-progress', progress: 20 },
+    { id: 1, name: 'Practice scales', description: 'Practice major scales', status: 'in-progress', progress: 50,
+      subtasks: [
+      { id: 1, name: "Open Chords", status: 'completed' },
+      { id: 2, name: "Barre Chords", status: 'in-progress' },
+  ], },
+    { id: 2, name: 'Learn chords', description: 'Learn basic chord progressions', status: 'in-progress', progress: 20,
+      subtasks: [
+        { id: 1, name: "Open Chords", status: 'in-progress' },
+        { id: 2, name: "Barre Chords", status: 'in-progress' },
+        { id: 2, name: "Barre Chords", status: 'completed' },
+    ],
+    },
   ]);
   const [modalVisible, setModalVisible] = useState(false); // State to control modal visibility
   const [taskToEdit, setTaskToEdit] = useState(null); // State for the task being edited
@@ -18,6 +28,7 @@ function App() {
   const removeTask = (taskId) => {
     setTasks(tasks.filter((task) => task.id !== taskId)); // Remove the task from the array
   };
+
 
   const openEditModal = (task) => {
     setTaskToEdit(task); // Set the task to edit

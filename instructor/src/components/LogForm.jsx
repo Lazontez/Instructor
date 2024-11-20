@@ -30,7 +30,11 @@ function LogForm({ addTask }) {
         name: taskText,
         description: description,
         status: isCompleted ? 'completed' : 'in-progress',
-        progress: 75
+        progress: 75,
+        subtasks: [
+          { id: 1, name: "Barre Chords", status: 'in-progress' },
+          { id: 2, name: "Learn Scales", status: 'completed' },
+      ]
       });
       setTaskText('');
       setDescription('');

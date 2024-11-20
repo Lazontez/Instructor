@@ -8,6 +8,13 @@ const TaskList = ({ tasks, removeTask, updateTaskProgress, editTask  }) => {
     editTask(task); // Pass the task to the parent component
   };
 
+  const calculateProgress = (subtasks) => {
+    if (!subtasks || subtasks.length === 0) return 0;
+    const completed = subtasks.filter((subtask) => subtask.status === 'completed').length;
+    return Math.round((completed / subtasks.length) * 100);
+};
+
+
   return (
     <div className="task-list">
       {tasks.length > 0 ? (
@@ -17,11 +24,11 @@ const TaskList = ({ tasks, removeTask, updateTaskProgress, editTask  }) => {
             <div className="task-list__item-progress-container">
           <div
             className="task-list__item-progress"
-            style={{ width: `${task.progress}%` }} // Dynamically set width based on progress
+            style={{ width: `${calculateProgress(task.subtasks)}%` }} // Dynamically set width based on progress
           ></div>
         </div>
         <div className="task-list__item-progress-text">
-          {task.progress}% Completed
+          {calculateProgress(task.subtasks)}% Completed
         </div>
         <div className="task-list__item-buttons">
     <button
