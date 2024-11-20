@@ -7,7 +7,6 @@ const testID = new mongoose.Types.ObjectId();
 
 // Create a new goal
 router.post('/c', async (req, res) => {
-    console.log(req.body)
   try {
     const { name, description, userId, subtasks } = req.body;
 
