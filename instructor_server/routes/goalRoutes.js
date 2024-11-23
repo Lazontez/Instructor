@@ -3,10 +3,12 @@ const router = express.Router();
 const Goal = require('../models/goalModel');
 const mongoose = require('mongoose')
 const testID = new mongoose.Types.ObjectId(); 
+const authMiddleware = require('../middleware/authenticationMiddleware')
+
 // Test Data Above For UserID
 
 // Create a new goal
-router.post('/c', async (req, res) => {
+router.post('/c',authMiddleware, async (req, res) => {
   try {
     const { name, description, userId, subtasks } = req.body;
 
@@ -26,7 +28,7 @@ router.post('/c', async (req, res) => {
   }
 });
 // Remove a goal
-router.delete('/r/:goalId', async (req, res) => {
+router.delete('/r/:goalId',authMiddleware, async (req, res) => {
   try {
     const result = await Goal.deleteOne({ _id: req.params.goalId });
 
@@ -42,7 +44,7 @@ router.delete('/r/:goalId', async (req, res) => {
 });
 
 // Update a Goal
-router.put('/u/:goalId', async (req, res) => {
+router.put('/u/:goalId', authMiddleware , async (req, res) => {
   const { goalId } = req.params;
   const updatedData = req.body;
   try {
@@ -57,7 +59,7 @@ router.put('/u/:goalId', async (req, res) => {
 });
 
 // Get all goals for a user
-router.get('/g/:userId', async (req, res) => {
+router.get('/g/:userId',authMiddleware, async (req, res) => {
   try {
     const goals = await Goal.find({ userId: req.params.userId });
     res.json(goals);

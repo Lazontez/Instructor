@@ -20,7 +20,7 @@ connectDB();
 // Routes
 app.use('/api/goals', goalRoutes);
 app.use('/api/subtasks', subtaskRoutes)
-app.use('/user', authRoutes)
+app.use('/api/user', authRoutes)
 
 // Start server
 const PORT = process.env.PORT || 5000;

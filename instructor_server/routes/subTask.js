@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const Goal = require('../models/goalModel'); // Adjust path as needed
+const Goal = require('../models/goalModel');
+const authMiddleware = require('../middleware/authenticationMiddleware')
 
 // Add Subtask
-router.post('/a/:goalId', async (req, res) => {
+router.post('/a/:goalId', authMiddleware , async (req, res) => {
     const { name, status } = req.body;
     const goalId = req.params.goalId;
 
