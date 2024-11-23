@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 const connectDB = require('./db');
 const goalRoutes = require('./routes/goalRoutes');
 const subtaskRoutes = require('./routes/subTask');
+const authRoutes = require('./routes/authenticanRoutes')
 const cors = require('cors');
 
 dotenv.config();
@@ -19,6 +20,7 @@ connectDB();
 // Routes
 app.use('/api/goals', goalRoutes);
 app.use('/api/subtasks', subtaskRoutes)
+app.use('/user', authRoutes)
 
 // Start server
 const PORT = process.env.PORT || 5000;
