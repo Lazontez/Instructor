@@ -2,6 +2,8 @@ const jwt = require('jsonwebtoken');
 
 const authMiddleware = (req, res, next) =>{
     const token = req.headers.authorization?.split(" ")[1];
+    console.log(token)
+    const SECRET_KEY = 'Test'
 
     if(!token) return res.status(403).json({error: 'No Token provided'});
 
@@ -10,7 +12,7 @@ const authMiddleware = (req, res, next) =>{
         req.user = decoded
         next()
     } catch (err){
-        res.status(401).json({error:'Invalud token'})
+        res.status(401).json({error:'Invalid token'})
     }
 
 };
