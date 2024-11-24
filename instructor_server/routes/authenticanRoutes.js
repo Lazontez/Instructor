@@ -30,7 +30,6 @@ router.get('/login', async(req,res)=>{
         const isMatch = await bcrypt.compare(password,user.password)
         if(!isMatch) return  res.status(401).json({error: "Invalid Credentials"})
         const token = jwt.sign({id: user.id, role: user.role}, SECRET_KEY, {expiresIn: '1hr'})
-        console.log(token)
         res.json({token})
 
 

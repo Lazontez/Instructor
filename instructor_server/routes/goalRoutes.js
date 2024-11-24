@@ -10,20 +10,20 @@ const authMiddleware = require('../middleware/authenticationMiddleware')
 // Create a new goal
 router.post('/c',authMiddleware, async (req, res) => {
   try {
-    const { name, description, userId, subtasks } = req.body;
+    const { name, description, subtasks } = req.body;
+    const user = req.user.id
 
     const newGoal = new Goal({
       name,
       description,
-      userId: testID,
-      subtasks,
-      goalId: '5'
+      userId: user,
+      subtasks
     });
 
     await newGoal.save();
     res.status(201).json(newGoal);
   } catch (error) {
-    console.log
+    console.log(error)
     res.status(500).json({ message: 'Failed to create goal' });
   }
 });
@@ -61,7 +61,7 @@ router.put('/u/:goalId', authMiddleware , async (req, res) => {
 // Get all goals for a user
 router.get('/g/:userId',authMiddleware, async (req, res) => {
   try {
-    const goals = await Goal.find({ userId: req.params.userId });
+    const goals = await Goal.find({ userId: req.user.id });
     res.json(goals);
   } catch (error) {
     res.status(500).json({ message: 'Failed to fetch goals' });
