@@ -21,7 +21,7 @@ router.post('/n' , async(req,res)=>{
 })
 const SECRET_KEY = "Test"
 //Login
-router.get('/login', async(req,res)=>{
+router.post('/login', async(req,res)=>{
     const {email,password} = req.body;
     try{
         

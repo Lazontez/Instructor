@@ -1,0 +1,235 @@
+/* General Body Styling */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f4f8; /* Light background for contrast */
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Login Container Styling */
+  .login-container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to bottom right, #fbc2eb, #a6c1ee); /* Soft gradient */
+    padding: 20px;
+    box-sizing: border-box;
+    position: relative;
+  }
+  
+  /* Form Styling */
+  form {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* Header and Subtitle */
+  h2 {
+    color: #333;
+    font-size: 28px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    text-transform: uppercase;
+  }
+  
+  h3 {
+    color: #5c6bc0;
+    font-size: 16px;
+    margin-bottom: 20px;
+    font-family: 'Arial', sans-serif;
+    font-weight: 300;
+    font-style: italic;
+  }
+  
+  /* Form Group Styling */
+  .form-group {
+    margin-bottom: 20px;
+    text-align: left;
+  }
+  
+  label {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  input[type="email"],
+  input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin-top: 5px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+  }
+  
+  /* Input Focus */
+  input[type="email"]:focus,
+  input[type="password"]:focus {
+    border-color: #5c6bc0;
+    outline: none;
+  }
+  
+  /* Submit Button */
+  button {
+    background-color: #5c6bc0;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  button:hover {
+    background-color: #3f4e9f;
+  }
+  
+  /* Adding Guitar-Themed Branding */
+  .login-container::before {
+    content: '🎸 Login';
+    font-size: 36px;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    color: #fff;
+    font-weight: bold;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+  }
+  
+  .login-container::after {
+    content: 'Your musical journey begins here';
+    font-size: 16px;
+    font-style: italic;
+    color: #fff;
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+  }
+  
+  /* Subtle Animation on the Form */
+  form {
+    animation: slideIn 1s ease-out;
+  }
+  
+  @keyframes slideIn {
+    from {
+      transform: translateY(-50px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  /* Mobile Responsive Styles */
+  @media (max-width: 768px) {
+    /* Adjust login container and form */
+    .login-container {
+      padding: 10px;
+    }
+  
+    form {
+      max-width: 100%;
+      padding: 20px;
+    }
+  
+    /* Adjust form inputs for smaller screens */
+    input[type="email"],
+    input[type="password"] {
+      padding: 10px;
+      font-size: 14px;
+    }
+  
+    /* Adjust the button size */
+    button {
+      padding: 10px;
+      font-size: 14px;
+    }
+  
+    /* Adjust text for mobile */
+    h2 {
+      font-size: 24px;
+    }
+  
+    h3 {
+      font-size: 14px;
+    }
+  
+    /* Make sure branding doesn't overlap on mobile */
+    .login-container::before {
+      font-size: 30px;
+      top: 10px;
+      left: 10px;
+    }
+  
+    .login-container::after {
+      font-size: 14px;
+      bottom: 10px;
+      right: 10px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    /* For very small screens (phones) */
+    .login-container {
+      padding: 5px;
+    }
+  
+    form {
+      max-width: 100%;
+      padding: 15px;
+    }
+  
+    /* Adjust button size further for mobile screens */
+    button {
+      padding: 8px;
+      font-size: 13px;
+    }
+  
+    /* Adjust input fields for very small screens */
+    input[type="email"],
+    input[type="password"] {
+      padding: 8px;
+      font-size: 13px;
+    }
+  
+    /* Header size adjustments */
+    h2 {
+      font-size: 20px;
+    }
+  
+    h3 {
+      font-size: 12px;
+    }
+  
+    /* Branding and tagline text adjustments */
+    .login-container::before {
+      font-size: 28px;
+      top: 5px;
+      left: 5px;
+    }
+  
+    .login-container::after {
+      font-size: 12px;
+      bottom: 5px;
+      right: 5px;
+    }
+  }
+  
+  
