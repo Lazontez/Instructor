@@ -81,6 +81,13 @@ body {
     border-color: #5c6bc0;
     outline: none;
   }
+
+  .error {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+    text-align: center;
+  }
   
   /* Submit Button */
   button {

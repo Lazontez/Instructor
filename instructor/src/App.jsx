@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './components/Login.jsx'; // Import login component
+import SignUp from './components/SignUp.jsx'
 import TeacherDashboard from './components/TeacherDashboard'; // Import teacher dashboard
 import StudentDashboard from './components/StudentDashboard'; // Import student dashboard
 import {jwtDecode} from 'jwt-decode'; // Install jwt-decode for decoding JWT token
@@ -58,6 +59,7 @@ function App() {
         <Routes>
           {/* Login Page */}
           <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
 
           {/* Protected Routes */}
           {isAuthenticated ? (
