@@ -9,7 +9,7 @@ const router = express()
 // New User
 router.post('/n' , async(req,res)=>{
     const {username, email, password, role} = req.body;
-
+    console.log('Attempt to create new account starts here...')
     try{
         const hashedPw = await bcrypt.hash(password, 10)
         const newUser = new User ({username, email, password: hashedPw, role})
