@@ -43,7 +43,7 @@ const SignUp = () => {
     };
 
     axios
-      .post('http://localhost:5000/api/user/n', data)
+      .post('https://instructor-server.onrender.com/api/user/n', data)
       .then((res) => {
         console.log(data)
         if (res.status === 200 && res.data['New User']) {

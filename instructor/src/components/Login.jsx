@@ -42,7 +42,7 @@ const Login = () => {
       password: password,
     };
     axios
-      .post('http://localhost:5000/api/user/login', data)
+      .post('https://instructor-server.onrender.com/api/user/login', data)
       .then((res) => {
         if (res.status === 200 && res.data.token) {
           // Store the token and user role in localStorage
