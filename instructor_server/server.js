@@ -7,7 +7,7 @@ const authRoutes = require('./routes/authenticanRoutes')
 const cors = require('cors');
 const allowedOrigins = [
     'http://localhost:5173', 
-    'https://testinstructor.netlify.app/', 
+    'https://testinstructor.netlify.app', 
   ];
 
 dotenv.config();
