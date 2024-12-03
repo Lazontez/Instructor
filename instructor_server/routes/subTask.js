@@ -15,8 +15,8 @@ router.post('/a/:goalId', authMiddleware , async (req, res) => {
         // Update the goal by adding the new subtask
         const updatedGoal = await Goal.findByIdAndUpdate(
             goalId,
-            { $push: { subtasks: newSubtask } }, // Use $push to add the subtask
-            { new: true, runValidators: true }  // Return the updated document and run validators
+            { $push: { subtasks: newSubtask } },
+            { new: true, runValidators: true }  
         );
 
         if (!updatedGoal) {
