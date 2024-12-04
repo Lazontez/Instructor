@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Login from './components/Login.jsx'; // Import login component
-import SignUp from './components/SignUp.jsx'
-import TeacherDashboard from './components/TeacherDashboard'; // Import teacher dashboard
-import StudentDashboard from './components/StudentDashboard'; // Import student dashboard
-import {jwtDecode} from 'jwt-decode'; // Install jwt-decode for decoding JWT token
+import Login from './components/Login.jsx';
+import SignUp from './components/SignUp.jsx';
+import TeacherDashboard from './components/TeacherDashboard';
+import StudentDashboard from './components/StudentDashboard';
+import { jwtDecode } from 'jwt-decode';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userRole, setUserRole] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [tasks, setTasks] = useState([
     // Example tasks data
     {
@@ -35,7 +36,6 @@ function App() {
     },
   ]);
 
-  // Check if the user is authenticated on initial load
   useEffect(() => {
     const token = localStorage.getItem('token');
     const role = localStorage.getItem('role');
@@ -51,13 +51,19 @@ function App() {
         console.error("Invalid token", error);
       }
     }
+
+    setLoading(false);
   }, []);
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
-    <Router>
+    <Router basename="/">
       <div className="app">
         <Routes>
-          {/* Login Page */}
+          {/* Login and Sign Up Routes */}
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
 
@@ -85,6 +91,7 @@ function App() {
 }
 
 export default App;
+
 
 
 
