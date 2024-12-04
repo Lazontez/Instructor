@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './components/Login.jsx'; // Import login component
 import SignUp from './components/SignUp.jsx'
 import TeacherDashboard from './components/TeacherDashboard'; // Import teacher dashboard
