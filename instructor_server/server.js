@@ -27,9 +27,9 @@ app.use(cors({
   },
 }));
 
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
-});
+const reactAppPath = path.join(__dirname, '../instructor/build');
+app.use(express.static(reactAppPath));
+
 
 // Connect to DB
 connectDB();
