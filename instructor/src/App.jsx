@@ -5,10 +5,10 @@ import SignUp from './components/SignUp.jsx'
 import TeacherDashboard from './components/TeacherDashboard'; // Import teacher dashboard
 import StudentDashboard from './components/StudentDashboard'; // Import student dashboard
 import {jwtDecode} from 'jwt-decode'; // Install jwt-decode for decoding JWT token
+import { useAuth } from './utils/hooks/auth.jsx';
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userRole, setUserRole] = useState(null);
+  const {isAuthenticated, userRole} = useAuth();
   const [tasks, setTasks] = useState([
     // Example tasks data
     {
