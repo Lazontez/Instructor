@@ -35,9 +35,11 @@ app.use('/api/goals', goalRoutes);
 app.use('/api/subtasks', subtaskRoutes)
 app.use('/api/user', authRoutes)
 
+const filePath = path.dirname(__dirname) 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'instructor', 'dist', 'index.html'));
+  res.sendFile(path.join(__dirname, 'instructor', 'build', 'index.html'));
 });
+console.log(path.join(filePath, 'instructor', 'dist', 'index.html'))
 // Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
