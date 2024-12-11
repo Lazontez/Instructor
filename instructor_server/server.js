@@ -5,6 +5,7 @@ const goalRoutes = require('./routes/goalRoutes');
 const subtaskRoutes = require('./routes/subTask');
 const authRoutes = require('./routes/authenticanRoutes')
 const cors = require('cors');
+const path = require('path')
 const allowedOrigins = [
     'http://localhost:5173', 
     'https://testinstructor.netlify.app', 
