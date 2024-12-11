@@ -37,7 +37,7 @@ app.use('/api/user', authRoutes)
 
 const filePath = path.dirname(__dirname) 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'instructor', 'build', 'index.html'));
+  res.sendFile(path.join(filePath, 'instructor', 'dist', 'index.html'));
 });
 console.log(path.join(filePath, 'instructor', 'dist', 'index.html'))
 // Start server
