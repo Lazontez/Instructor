@@ -57,7 +57,7 @@ function App() {
     <Router>
       <div className="app">
         <Routes>
-          {/* Login Page */}
+          {/* Public Routes */}
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
 
@@ -78,6 +78,9 @@ function App() {
           ) : (
             <Route path="*" element={<Navigate to="/login" />} />
           )}
+
+          {/* Catch-all for unrecognized routes */}
+          <Route path="*" element={<Navigate to="/login" />} />
         </Routes>
       </div>
     </Router>
