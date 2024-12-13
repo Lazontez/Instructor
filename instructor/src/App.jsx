@@ -8,7 +8,7 @@ import {jwtDecode} from 'jwt-decode'; // Install jwt-decode for decoding JWT tok
 import { useAuth } from './utils/hooks/auth.jsx';
 
 function App() {
-  const {isAuthenticated, userRole} = useAuth();
+  const { isAuthenticated, setIsAuthenticated, userRole, setUserRole } = useAuth();
   const [tasks, setTasks] = useState([
     // Example tasks data
     {

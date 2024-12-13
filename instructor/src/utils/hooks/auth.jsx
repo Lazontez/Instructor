@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { jwtDecode } from 'jwt-decode';
+import {jwtDecode} from 'jwt-decode'; 
 
 export const useAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -18,11 +18,12 @@ export const useAuth = () => {
         }
       } catch (error) {
         console.error("Invalid token", error);
+        setIsAuthenticated(false);
       }
     }
   }, []);
 
-  return { isAuthenticated, userRole };
+  return { isAuthenticated, setIsAuthenticated, userRole, setUserRole };
 };
 
 

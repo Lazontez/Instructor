@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import '../utils/Login.css';
 import axios from 'axios';
-import {jwtDecode} from 'jwt-decode'; 
+import {jwtDecode} from 'jwt-decode'; // Fix import
+import { useAuth } from '../utils/hooks/auth.jsx';
+
 // MUI imports
 import {
   TextField,
@@ -33,7 +35,8 @@ const theme = createTheme({
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(''); 
+  const [error, setError] = useState('');
+  const { setIsAuthenticated, setUserRole } = useAuth(); // Call the hook inside the component
   const navigate = useNavigate();
 
   const onLogin = () => {
@@ -49,6 +52,11 @@ const Login = () => {
           localStorage.setItem('token', res.data.token);
           const decodedToken = jwtDecode(res.data.token);
           localStorage.setItem('role', decodedToken.role);
+
+          // Update authentication state
+          setIsAuthenticated(true);
+          setUserRole(decodedToken.role);
+
           navigate('/dashboard');
         }
       })
@@ -102,7 +110,6 @@ const Login = () => {
             </Button>
           </form>
 
-         
           {error && (
             <Typography
               color="error"
@@ -114,7 +121,6 @@ const Login = () => {
             </Typography>
           )}
 
-        
           <Typography align="center" sx={{ marginTop: 2 }}>
             Don't have an account? <Link to="/signup">Sign up here</Link>
           </Typography>
@@ -125,5 +131,6 @@ const Login = () => {
 };
 
 export default Login;
+
 
 
