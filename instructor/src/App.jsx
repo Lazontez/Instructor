@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Login from './components/Login.jsx'; // Import login component
+import Login from './components/Login.jsx'; 
 import SignUp from './components/SignUp.jsx'
-import TeacherDashboard from './components/TeacherDashboard'; // Import teacher dashboard
-import StudentDashboard from './components/StudentDashboard'; // Import student dashboard
-import {jwtDecode} from 'jwt-decode'; // Install jwt-decode for decoding JWT token
+import TeacherDashboard from './components/TeacherDashboard'; 
+import StudentDashboard from './components/StudentDashboard'; 
+import {jwtDecode} from 'jwt-decode';
 import { useAuth } from './utils/hooks/auth.jsx';
 
 function App() {
-  const { isAuthenticated, setIsAuthenticated, userRole, setUserRole } = useAuth();
+  const { isAuthenticated, setIsAuthenticated, userRole, setUserRole, loading } = useAuth();
   const [tasks, setTasks] = useState([
     // Example tasks data
     {
@@ -52,6 +52,12 @@ function App() {
       }
     }
   }, []);
+  console.log(loading)
+
+  if (loading) {
+    console.log("loading")
+    return <div>Loading...</div>;
+  }
 
   return (
     <Router>
