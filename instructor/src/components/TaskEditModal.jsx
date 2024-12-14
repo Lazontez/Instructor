@@ -1,10 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../utils/TaskEditModal.css'; // Importing the CSS for styling
 
-const TaskEditModal = ({ isOpen, task, onClose, onSave }) => {
+const TaskEditModal = ({ isModalOpen, task, onClose, onSave }) => {
   const [taskText, setTaskText] = useState(task ? task.name : '');
   const [description, setDescription] = useState(task ? task.description : '');
   const [isCompleted, setIsCompleted] = useState(task ? task.status === 'completed' : false);
+
+  useEffect(() => {
+    // Reset fields when task is updated or modal is reopened
+    if (task) {
+      setTaskText(task.name);
+      setDescription(task.description);
+      setIsCompleted(task.status === 'completed');
+    }
+  }, [task, isModalOpen]);
 
   const handleTaskTextChange = (e) => {
     const regex = /^[a-zA-Z0-9\s.,!?()_-]*$/;
@@ -30,11 +39,11 @@ const TaskEditModal = ({ isOpen, task, onClose, onSave }) => {
         description: description,
         status: isCompleted ? 'completed' : 'in-progress',
       });
-      onClose();
+      onClose(); // Close modal after saving
     }
   };
 
-  if (!isOpen) return null; // Don't render if the modal is closed
+  if (!isModalOpen) return null; // Don't render if the modal is closed
 
   return (
     <div className="task-edit-modal">
@@ -85,6 +94,7 @@ const TaskEditModal = ({ isOpen, task, onClose, onSave }) => {
 };
 
 export default TaskEditModal;
+
 
 
 

@@ -1,12 +1,40 @@
 import React, { useState } from 'react';
-import '../utils/Task.css'; // Assuming this is where the styles are located
+import TaskModal from '../components/TaskEditModal'; 
+import '../utils/Task.css'
+import apiTask from '../utils/api/tasks.js'
 
-const TaskList = ({ tasks, removeTask, updateTaskProgress, editTask }) => {
+const TaskList = ({ tasks, setTasks }) => {
   const [expandedTaskId, setExpandedTaskId] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentTask, setCurrentTask] = useState(null);
+  console.log(tasks)
 
+  // Function to remove a task by its id
+  const removeTask = (taskId) => {
+    const updatedTasks = tasks.filter(task => task.id !== taskId);
+    apiTask.removeTask();
+    setTasks(updatedTasks);
+  };
+
+  // Function to open the edit modal
   const openEditModal = (task) => {
-    console.log('Editing task: ', task);
-    editTask(task);
+    setCurrentTask(task);
+    setIsModalOpen(true); // Open the modal to edit the task
+  };
+
+  // Function to save an edited task
+  const saveTask = (updatedTask) => {
+    const updatedTasks = tasks.map(task =>
+      task.id === updatedTask.id ? updatedTask : task
+    );
+    setTasks(updatedTasks);
+    closeModal(); 
+  };
+
+  // Close the modal
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setCurrentTask(null);
   };
 
   const calculateProgress = (subtasks) => {
@@ -36,11 +64,12 @@ const TaskList = ({ tasks, removeTask, updateTaskProgress, editTask }) => {
             </div>
             <div className="task-list__item-buttons">
               <button
-                className="task-list__item-edit-btn task-list__item-edit-btn--edit"
-                onClick={() => openEditModal(task)}
+                className="task-list__item-edit-btn"
+                onClick={() => openEditModal(task)} 
               >
                 Edit
               </button>
+
               <button
                 className="task-list__item-delete-btn"
                 onClick={() => removeTask(task.id)}
@@ -57,8 +86,6 @@ const TaskList = ({ tasks, removeTask, updateTaskProgress, editTask }) => {
               >
                 {expandedTaskId === task.id ? 'Hide Subtasks' : 'Show Subtasks'}
               </button>
-
-              {/* Render subtasks if expanded */}
               {expandedTaskId === task.id && (
                 <ul className="task-list__subtasks">
                   {task.subtasks.map((subtask) => (
@@ -66,7 +93,6 @@ const TaskList = ({ tasks, removeTask, updateTaskProgress, editTask }) => {
                       <input
                         type="checkbox"
                         checked={subtask.status === 'completed'}
-                        onChange={() => updateTaskProgress(task.id, subtask.id)}
                       />
                       <span>{subtask.name}</span>
                     </li>
@@ -79,11 +105,26 @@ const TaskList = ({ tasks, removeTask, updateTaskProgress, editTask }) => {
       ) : (
         <p className="task-list__empty">No tasks available</p>
       )}
+
+      {/* Modal for editing tasks */}
+      {isModalOpen && (
+        <TaskModal
+          task={currentTask}
+          onSave={saveTask} 
+          onClose={closeModal}
+          isModalOpen={isModalOpen}
+        />
+      )}
     </div>
   );
 };
 
 export default TaskList;
+
+
+
+
+
 
 
 

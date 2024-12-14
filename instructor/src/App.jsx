@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './components/Login.jsx'; 
 import SignUp from './components/SignUp.jsx'
-import TeacherDashboard from './components/TeacherDashboard'; 
-import StudentDashboard from './components/StudentDashboard'; 
+import TeacherDashboard from './pages/TeacherDashboard.jsx'; 
+import StudentDashboard from './pages/StudentDashboard.jsx'; 
 import {jwtDecode} from 'jwt-decode';
 import { useAuth } from './utils/hooks/auth.jsx';
 
@@ -16,7 +16,7 @@ function App() {
       name: 'Practice scales',
       description: 'Practice major scales',
       status: 'in-progress',
-      progress: 50,
+      progress: 75,
       subtasks: [
         { id: 1, name: 'Open Chords', status: 'completed' },
         { id: 2, name: 'Barre Chords', status: 'in-progress' },
@@ -27,10 +27,11 @@ function App() {
       name: 'Learn chords',
       description: 'Learn basic chord progressions',
       status: 'in-progress',
-      progress: 20,
+      progress: 60,
       subtasks: [
-        { id: 1, name: 'Open Chords', status: 'in-progress' },
+        { id: 1, name: 'Open Chords', status: 'completed' },
         { id: 2, name: 'Barre Chords', status: 'in-progress' },
+        { id: 2, name: 'Practice Chord Changes', status: 'completed' },
       ],
     },
   ]);
@@ -52,10 +53,8 @@ function App() {
       }
     }
   }, []);
-  console.log(loading)
-
+  
   if (loading) {
-    console.log("loading")
     return <div>Loading...</div>;
   }
 
