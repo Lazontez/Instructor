@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react';
 import {jwtDecode} from 'jwt-decode'; 
-import { useNavigate } from 'react-router-dom';
 
 export const useAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userRole, setUserRole] = useState(null);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -23,12 +21,10 @@ export const useAuth = () => {
           localStorage.removeItem('token');
           localStorage.removeItem('role');
           setIsAuthenticated(false);
-          navigate('/login')
         }
       } catch (error) {
         console.error("Invalid token", error);
         setIsAuthenticated(false);
-        navigate('/login')
       }
       
     }
