@@ -13,8 +13,6 @@ export const useAuth = () => {
     if (token && role) {
       try {
         const decodedToken = jwtDecode(token);
-
-        
         if (decodedToken.exp * 1000 > Date.now()) {
           setIsAuthenticated(true);
           setUserRole(decodedToken.role);
@@ -28,8 +26,9 @@ export const useAuth = () => {
         console.error("Invalid token", error);
         setIsAuthenticated(false);
       }
-      setLoading(false);
+      
     }
+    setLoading(false);
   }, []);
 
   return { isAuthenticated, setIsAuthenticated, userRole, setUserRole, loading };
