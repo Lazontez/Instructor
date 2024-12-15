@@ -36,35 +36,35 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const { setIsAuthenticated, setUserRole } = useAuth(); // Call the hook inside the component
+  const {isAuthenticated, userRole, setIsAuthenticated, setUserRole } = useAuth();
   const navigate = useNavigate();
 
-  const onLogin = () => {
-    const data = {
-      email: email,
-      password: password,
-    };
-    axios
-      .post('https://instructor-server.onrender.com/api/user/login', data)
-      .then((res) => {
-        if (res.status === 200 && res.data.token) {
-          // Store the token and user role in localStorage
-          localStorage.setItem('token', res.data.token);
-          const decodedToken = jwtDecode(res.data.token);
-          localStorage.setItem('role', decodedToken.role);
-
-          // Update authentication state
-          setIsAuthenticated(true);
-          setUserRole(decodedToken.role);
-
+  const onLogin = async () => {
+    const data = { email, password };
+  
+    try {
+      const res = await axios.post('https://instructor-server.onrender.com/api/user/login', data);
+  
+      if (res.status === 200 && res.data.token) {
+        const token = res.data.token;
+        const decodedToken = jwtDecode(token);
+  
+        localStorage.setItem('token', token);
+        localStorage.setItem('role', decodedToken.role);
+  
+        if (
+          localStorage.getItem('token') === token &&
+          localStorage.getItem('role') === decodedToken.role
+        ) {
           navigate('/dashboard');
         }
-      })
-      .catch((err) => {
-        console.log(err);
-        setError('Invalid email or password. Please try again.');
-      });
+      }
+    } catch (err) {
+      console.error('Login error:', err.response?.data || err.message);
+      setError('Invalid email or password. Please try again.');
+    }
   };
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
