@@ -1,10 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TaskList from '../components/TaskLists/'; 
 import LogForm from '../components/LogForm.jsx'; 
 import '../utils/StudentDashboard.css'; 
+import apiTask from '../utils/api/tasks.js';
+import { jwtDecode } from 'jwt-decode';
 
 const StudentDashboard = () => {
   const [tasks, setTasks] = useState([]); 
+
+  useEffect(() => {
+    const fetchTasks = async () => {
+      const token = localStorage.getItem('token');
+      const decodedToken = jwtDecode(token); 
+      const userId = decodedToken.id;
+      
+      try {
+        const userTasks = await apiTask.getTasks(userId , token); 
+        setTasks(userTasks); 
+      } catch (error) {
+        console.error('Failed to fetch tasks:', error);
+      }
+    };
+
+    fetchTasks();
+  }, []);
 
   const addTask = (task) => {
     setTasks(prevTasks => [...prevTasks, task]);

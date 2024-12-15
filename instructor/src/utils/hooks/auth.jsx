@@ -5,22 +5,24 @@ export const useAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userRole, setUserRole] = useState(null);
   const [loading, setLoading] = useState(true);
-
+ 
+console.log('Hook', isAuthenticated)
   useEffect(() => {
     const token = localStorage.getItem('token');
     const role = localStorage.getItem('role');
 
-    if (token && role) {
+     if (token && role) {
       try {
         const decodedToken = jwtDecode(token);
         if (decodedToken.exp * 1000 > Date.now()) {
           setIsAuthenticated(true);
-          setUserRole(decodedToken.role);
+          setUserRole(decodedToken.role)          
         } else {
           // Token expired, clear localStorage
           localStorage.removeItem('token');
           localStorage.removeItem('role');
           setIsAuthenticated(false);
+          console.log("Expired User")
         }
       } catch (error) {
         console.error("Invalid token", error);

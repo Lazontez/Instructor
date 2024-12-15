@@ -8,7 +8,7 @@ import {jwtDecode} from 'jwt-decode';
 import { useAuth } from './utils/hooks/auth.jsx';
 
 function App() {
-  const { isAuthenticated, setIsAuthenticated, userRole, setUserRole, loading } = useAuth();
+  const { isAuthenticated, setIsAuthenticated, userRole, setUserRole, loading, userId } = useAuth();
   const [tasks, setTasks] = useState([
     // Example tasks data
     {
@@ -75,7 +75,7 @@ function App() {
                   userRole === 'teacher' ? (
                     <TeacherDashboard tasks={tasks} setTasks={setTasks} />
                   ) : (
-                    <StudentDashboard tasks={tasks} setTasks={setTasks} />
+                    <StudentDashboard tasks={tasks} setTasks={setTasks} userId={userId}/>
                   )
                 }
               />

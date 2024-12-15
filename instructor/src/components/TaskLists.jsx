@@ -7,13 +7,16 @@ const TaskList = ({ tasks, setTasks }) => {
   const [expandedTaskId, setExpandedTaskId] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentTask, setCurrentTask] = useState(null);
-  console.log(tasks)
 
-  // Function to remove a task by its id
-  const removeTask = (taskId) => {
-    const updatedTasks = tasks.filter(task => task.id !== taskId);
-    apiTask.removeTask();
-    setTasks(updatedTasks);
+  
+  const removeTask = async (taskId) => {
+    try {
+      await apiTask.removeTask(taskId); // Call API to remove the task
+      const updatedTasks = tasks.filter(task => task.id !== taskId);
+      setTasks(updatedTasks); 
+    } catch (error) {
+      console.error('Error removing task:', error);
+    }
   };
 
   // Function to open the edit modal
@@ -120,6 +123,7 @@ const TaskList = ({ tasks, setTasks }) => {
 };
 
 export default TaskList;
+
 
 
 

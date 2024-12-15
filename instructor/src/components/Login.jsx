@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import '../utils/Login.css';
 import axios from 'axios';
-import {jwtDecode} from 'jwt-decode'; // Fix import
+import {jwtDecode} from 'jwt-decode'; 
 import { useAuth } from '../utils/hooks/auth.jsx';
 
 // MUI imports
@@ -44,17 +44,15 @@ const Login = () => {
   
     try {
       const res = await axios.post('https://instructor-server.onrender.com/api/user/login', data);
-  
       if (res.status === 200 && res.data.token) {
         const token = res.data.token;
         const decodedToken = jwtDecode(token);
-  
         localStorage.setItem('token', token);
         localStorage.setItem('role', decodedToken.role);
-  
         if (
           localStorage.getItem('token') === token &&
           localStorage.getItem('role') === decodedToken.role
+          
         ) {
           navigate('/dashboard');
         }
