@@ -6,7 +6,6 @@ export const useAuth = () => {
   const [userRole, setUserRole] = useState(null);
   const [loading, setLoading] = useState(true);
  
-console.log('Hook', isAuthenticated)
   useEffect(() => {
     const token = localStorage.getItem('token');
     const role = localStorage.getItem('role');

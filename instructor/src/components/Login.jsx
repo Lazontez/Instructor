@@ -54,7 +54,8 @@ const Login = () => {
           localStorage.getItem('role') === decodedToken.role
           
         ) {
-          navigate('/dashboard');
+          navigate('/dashboard')
+          // handleLoginNavigation()
         }
       }
     } catch (err) {
@@ -62,6 +63,12 @@ const Login = () => {
       setError('Invalid email or password. Please try again.');
     }
   };
+  // const handleLoginNavigation = async ()=>{
+  //   await setTimeout(function(){
+  //     console.log('Navigating Now')
+  //     
+  //   },2000)
+  // }
   
 
   const handleSubmit = (e) => {
