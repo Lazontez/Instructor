@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import '../utils/Login.css';
 import axios from 'axios';
@@ -32,6 +32,8 @@ const theme = createTheme({
   },
 });
 
+
+
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -41,7 +43,7 @@ const Login = () => {
 
   const onLogin = async () => {
     const data = { email, password };
-  
+
     try {
       const res = await axios.post('https://instructor-server.onrender.com/api/user/login', data);
       if (res.status === 200 && res.data.token) {
@@ -49,33 +51,20 @@ const Login = () => {
         const decodedToken = jwtDecode(token);
         localStorage.setItem('token', token);
         localStorage.setItem('role', decodedToken.role);
-        if (
-          localStorage.getItem('token') === token &&
-          localStorage.getItem('role') === decodedToken.role
-          
-        ) {
-          navigate('/dashboard')
-          // handleLoginNavigation()
-        }
+        setIsAuthenticated(true)
+        setUserRole(decodedToken.role);
+        navigate('/dashboard')
       }
     } catch (err) {
       console.error('Login error:', err.response?.data || err.message);
       setError('Invalid email or password. Please try again.');
     }
   };
-  // const handleLoginNavigation = async ()=>{
-  //   await setTimeout(function(){
-  //     console.log('Navigating Now')
-  //     
-  //   },2000)
-  // }
-  
 
   const handleSubmit = (e) => {
     e.preventDefault();
     onLogin();
   };
-
   return (
     <ThemeProvider theme={theme}>
       <Container maxWidth="xs">

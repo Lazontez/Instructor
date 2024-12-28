@@ -15,6 +15,18 @@ const apiTask = {
       throw error;
     }
   },
+  addTask: async(task , token) =>{
+    if(task){
+      const response = await axios.post(`https://instructor-server.onrender.com/api/goals/c` , task, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }); 
+      return response.data;
+    }else{
+      console.log('Task Details Not Found')
+    }
+  }
 
 //   removeTask: async (taskId) => {
 //     try {

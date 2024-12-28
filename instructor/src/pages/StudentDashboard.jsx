@@ -4,6 +4,7 @@ import LogForm from '../components/LogForm.jsx';
 import '../utils/StudentDashboard.css'; 
 import apiTask from '../utils/api/tasks.js';
 import { jwtDecode } from 'jwt-decode';
+import axios from 'axios'; 
 
 const StudentDashboard = () => {
   const [tasks, setTasks] = useState([]); 
@@ -26,7 +27,11 @@ const StudentDashboard = () => {
   }, []);
 
   const addTask = (task) => {
+    const token = localStorage.getItem('token');
+    apiTask.addTask(task, token)
     setTasks(prevTasks => [...prevTasks, task]);
+
+
   };
 
   return (
