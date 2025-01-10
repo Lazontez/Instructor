@@ -26,16 +26,21 @@ const apiTask = {
     }else{
       console.log('Task Details Not Found')
     }
+  },
+  removeTask: async (taskId , token) => {
+    console.log(taskId)
+    try {
+      await axios.delete(`https://instructor-server.onrender.com/api/goals/r/${taskId}`,{
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }}).then(res=>{
+            return res.data
+        });  
+    } catch (error) {
+      console.error('Error removing task:', error);
+      throw error;
+    }
   }
-
-//   removeTask: async (taskId) => {
-//     try {
-//       await axios.delete(`/api/tasks/${taskId}`);  
-//     } catch (error) {
-//       console.error('Error removing task:', error);
-//       throw error;
-//     }
-//   },
 };
 
 export default apiTask;

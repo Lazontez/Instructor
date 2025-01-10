@@ -26,10 +26,11 @@ const StudentDashboard = () => {
     fetchTasks();
   }, []);
 
-  const addTask = (task) => {
+  const addTask = async (task) => {
     const token = localStorage.getItem('token');
-    apiTask.addTask(task, token)
-    setTasks(prevTasks => [...prevTasks, task]);
+    let newTask = await apiTask.addTask(task, token)
+    await setTasks(prevTasks => [...prevTasks, newTask]);
+
 
 
   };

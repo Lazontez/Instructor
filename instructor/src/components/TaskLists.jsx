@@ -11,8 +11,9 @@ const TaskList = ({ tasks, setTasks }) => {
   
   const removeTask = async (taskId) => {
     try {
-      await apiTask.removeTask(taskId); // Call API to remove the task
-      const updatedTasks = tasks.filter(task => task.id !== taskId);
+      const token = localStorage.getItem('token')
+      await apiTask.removeTask(taskId , token);
+      const updatedTasks = tasks.filter(task => task._id !== taskId);
       setTasks(updatedTasks); 
     } catch (error) {
       console.error('Error removing task:', error);
@@ -75,7 +76,7 @@ const TaskList = ({ tasks, setTasks }) => {
 
               <button
                 className="task-list__item-delete-btn"
-                onClick={() => removeTask(task.id)}
+                onClick={() => removeTask(task._id)}
               >
                 Remove
               </button>
