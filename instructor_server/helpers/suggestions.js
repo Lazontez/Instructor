@@ -1,5 +1,6 @@
 import OpenAI from "openai";
 import dotenv from 'dotenv';
+import { Error } from "mongoose";
 const result = dotenv.config({path:'../.env'})
 
 const openai = new OpenAI({
@@ -29,7 +30,7 @@ const generateSubtask = async (goal) => {
     const response = JSON.parse(completion.choices[0].message.content.slice(7, -3))
     
     if(response.unrelated){
-           return("We do not believe this is relevant to guitar")      
+           return({"unrelated":true})  
     }
     else{
         console.log(response)
