@@ -4,7 +4,7 @@ const Goal = require('../models/goalModel');
 const mongoose = require('mongoose')
 const testID = new mongoose.Types.ObjectId(); 
 const authMiddleware = require('../middleware/authenticationMiddleware');
-const suggestions = require('../helpers/suggestions.js').default;
+const suggestions = require('../helpers/suggestions.js')
 
 
 
