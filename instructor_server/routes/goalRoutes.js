@@ -3,7 +3,10 @@ const router = express.Router();
 const Goal = require('../models/goalModel');
 const mongoose = require('mongoose')
 const testID = new mongoose.Types.ObjectId(); 
-const authMiddleware = require('../middleware/authenticationMiddleware')
+const authMiddleware = require('../middleware/authenticationMiddleware');
+const suggestions = require('../helpers/suggestions.js').default;
+
+
 
 // Test Data Above For UserID
 
@@ -12,7 +15,8 @@ router.post('/c',authMiddleware, async (req, res) => {
   try {
     const { name, description, subtasks } = req.body;
     const user = req.user.id
-
+    const subtaskSuggestion = await suggestions({title: "Learn Happy Birthday song on guitar", skill:"Beginner"});
+    console.log(subtaskSuggestion)
     const newGoal = new Goal({
       name,
       description,
