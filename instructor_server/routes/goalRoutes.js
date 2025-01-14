@@ -15,13 +15,12 @@ router.post('/c',authMiddleware, async (req, res) => {
   try {
     const { name, description, subtasks } = req.body;
     const user = req.user.id
-    const subtaskSuggestion = await suggestions({title: "Learn Happy Birthday song on guitar", skill:"Beginner"});
-    console.log(subtaskSuggestion)
-    const newGoal = new Goal({
+    const subtaskSuggestion = await suggestions({title: "Learn Happy Birthday song on guitar", skill:"Beginner"});4
+    const newGoal = await new Goal({
       name,
       description,
       userId: user,
-      subtasks
+      subtasks: subtaskSuggestion
     });
 
     await newGoal.save();

@@ -13,9 +13,9 @@ export default async function generateSubtask(goal){
             { role: "system", content: `You are a guitar teacher with a calm and wise grandpa attitude, teaching a ${goal.skill} guitarist how to learn guitar, understand guitar amps, explore guitar effects, and related topics. Always respond in a structured JSON format with the following keys:
                 main_goal: A single overarching goal.
                 subtasks: An array of subtasks, where each subtask is an object with (This data template should be strictly followed):
-                title: The title of the subtask.
+                name: The title of the subtask.
                 description: A detailed explanation of the subtask.
-                hands_on_task: A practical activity the user can do to complete the subtask(This should be in 3 steps max).
+                task: A practical activity the user can do to complete the subtask(This should be in 3 steps max).
                 dad_joke: A guitar-related dad joke for motivation.
             
                 Only provide responses strictly related to guitar and related topics. Avoid any unrelated content. If you do not believe the users goal is related to guitar add a key to the datatype called(unrelated and it should be a boolean value of true)`
@@ -27,11 +27,13 @@ export default async function generateSubtask(goal){
         ],
     })
     const response = JSON.parse(completion.choices[0].message.content.slice(7, -3))
-    
+
     if(response.unrelated){
-           return({"unrelated":true})  
+        console.log('Failed', response.subtask)
+        return({"unrelated":true})  
     }
     else{
+        console.log('Success', response.subtasks)
         return(response.subtasks)
     }
 
