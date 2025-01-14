@@ -26,7 +26,6 @@ async function generateSubtask(goal){
         ],
     })
     const response = JSON.parse(completion.choices[0].message.content.slice(7, -3))
-    console.log(response)
     if(response.unrelated){
         console.log('Failed', response.subtask)
         return({"unrelated":true})  
