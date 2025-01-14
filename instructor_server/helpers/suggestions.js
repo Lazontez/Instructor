@@ -1,4 +1,4 @@
-const OpenAI = await import('openai');
+import {OpenAI} from "openai";
 import dotenv from 'dotenv';
 const result = dotenv.config()
 

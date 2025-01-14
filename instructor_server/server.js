@@ -1,5 +1,5 @@
 const express = require('express');
-import dotenv from 'dotenv'
+const dotenv = require('dotenv');
 const connectDB = require('./db');
 const goalRoutes = require('./routes/goalRoutes');
 const subtaskRoutes = require('./routes/subTask');
