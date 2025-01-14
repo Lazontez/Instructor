@@ -15,6 +15,7 @@ router.post('/c',authMiddleware, async (req, res) => {
   try {
     const { name, description, subtasks } = req.body;
     const user = req.user.id
+    console.log(req.body)
     const subtaskSuggestion = await suggestions({title: name, skill:"Beginner"});4
     const newGoal = await new Goal({
       name,
