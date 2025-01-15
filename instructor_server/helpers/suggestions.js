@@ -43,16 +43,15 @@ async function generateSubtask(goal) {
 
     const responseText = completion.choices[0].message.content;
 
-    // Find the JSON content dynamically
+   
     const start = responseText.indexOf('{');
     const end = responseText.lastIndexOf("```");
 
     if (start !== -1 && end !== -1) {
-        // Extract the JSON string
+       
         const jsonString = responseText.slice(start, end).trim();
 
         try {
-            // Parse the JSON string directly
             const response = JSON.parse(jsonString);
 
             if (response.unrelated) {
