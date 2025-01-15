@@ -1,15 +1,27 @@
-const {OpenAI} = require('openai').default;
+const { OpenAI } = require('openai').default;
 const dotenv = require('dotenv')
 const result = dotenv.config()
 
 const openai = new OpenAI({
-    apiKey: process.env.OPENAIAPIKEY
+    apiKey: process.env.OPENAIAPIKEY 
 })
-async function generateSubtask(goal){
-        const completion = await openai.chat.completions.create({
+
+const rules = `
+1. Formatting Rule: Always include the following syntax around the JSON response:
+   - Start the JSON response with \`\`\`json\\n\` (including the \\n for proper newline formatting).
+   - End the JSON response with \`\`\`.
+   - Ensure the JSON content is formatted properly and parsable.
+
+2. Validation: If this formatting is not applied, consider the response invalid.
+   - Responses must strictly adhere to the format and include the \`\`\`json\\n\` and \`\`\` syntax for consistency.
+   - If the user's goal is unrelated to guitar, include "unrelated": true and ensure even this response adheres to the \`\`\`json\\n\` syntax.
+`;
+async function generateSubtask(goal) {
+    const completion = await openai.chat.completions.create({
         model: "gpt-4o-mini",
         messages: [
-            { role: "system", content: `You are a guitar teacher with a calm and wise grandpa attitude, teaching a ${goal.skill} guitarist how to learn guitar, understand guitar amps, explore guitar effects, and related topics. Always respond in a structured JSON format with the following keys:
+            {
+                role: "system", content: `You are a guitar teacher with a calm and wise grandpa attitude, teaching a ${goal.skill} guitarist how to learn guitar, understand guitar amps, explore guitar effects, and related topics. Always respond in a structured JSON format with the following keys:
                 main_goal: A single overarching goal.
                 subtasks: An array of subtasks, where each subtask is an object with (This data template should be strictly followed):
                 name: The title of the subtask.
@@ -17,24 +29,48 @@ async function generateSubtask(goal){
                 task: A practical activity the user can do to complete the subtask(This should be in 3 steps max).
                 dad_joke: A guitar-related dad joke for motivation.
             
-                Only provide responses strictly related to guitar and related topics. Avoid any unrelated content. If you do not believe the users goal is related to guitar add a key to the datatype called(unrelated and it should be a boolean value of true). Before sending please confirm that is it in the data template desribed earlier`
-            },{
+                Only provide responses strictly related to guitar and related topics. Avoid any unrelated content. If you do not believe the users goal is related to guitar add a key to the datatype called(unrelated and it should be a boolean value of true). Before sending please confirm that is it in the data template desribed earlier
+                
+                Formatting Rules: ${rules}
+                `
+            }, {
                 role: "user",
                 type: "json",
                 content: `Provide a detailed, structured task list for ${goal.title}. Format the response as JSON with Title(This should be a string datatype), Description(This should be a string datatype) and HandsOnTask(This should be an array with no more than 3 steps). This is for a ${goal.skill} guitarist. Always have hands on examples.`
             },
         ],
     })
-    console.log(completion.choices[0].message)
-    const response = JSON.parse(completion.choices[0].message.content.slice(7, -3)) || JSON.parse(completion.choices[0].message.content.slice())
-    if(response.unrelated){
-        return({"unrelated":true})  
-    }
-    else{
-        return(response.subtasks)
-    }
 
+    const responseText = completion.choices[0].message.content;
+
+    // Find the JSON content dynamically
+    const start = responseText.indexOf('{');
+    const end = responseText.lastIndexOf("```");
+
+    if (start !== -1 && end !== -1) {
+        // Extract the JSON string
+        const jsonString = responseText.slice(start, end).trim();
+
+        try {
+            // Parse the JSON string directly
+            const response = JSON.parse(jsonString);
+
+            if (response.unrelated) {
+                return ({ "unrelated": true })
+            }
+            else {
+                return (response.subtasks)
+            }
+        } catch (error) {
+            console.error("JSON parsing failed:", error.message);
+            return []
+        }
+    } else {
+        console.error("Could not locate JSON content.");
+        return 
+    }
 }
+generateSubtask({ title: "Learn 3 Little Birds by Bob Marley" })
 
 module.exports = generateSubtask
 // Front End Categories
