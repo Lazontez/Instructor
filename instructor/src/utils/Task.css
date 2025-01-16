@@ -178,7 +178,7 @@
 }
 
 /* Active state for tooltip */
-.tooltip.show .tooltiptext {
+.tooltiptext.show {
   visibility: visible;
   opacity: 1;
 }
