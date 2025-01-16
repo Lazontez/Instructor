@@ -5,8 +5,8 @@ const SubTaskToolTip = ({ description, handsOnTask }) => {
   const [isTooltipVisible, setTooltipVisible] = useState(false);
 
   const toggleTooltip = () => {
-    
     setTooltipVisible((prev) => !prev);
+    console.log(isTooltipVisible)
   };
 
   
