@@ -148,7 +148,7 @@
 }
 /* Tooltip text */
 .tooltip .tooltiptext {
-  visibility: visible;
+  visibility: hidden;
   max-width: 300px;
   background-color: #555;
   color: #fff;
@@ -160,13 +160,13 @@
   bottom: 125%;
   left: 50%;
   transform: translateX(-50%);
-  opacity: 1;
+  opacity: 0;
   transition: opacity 0.3s ease-in-out, visibility 0.3s;
 }
 
 /* Tooltip arrow */
 .tooltip .tooltiptext::after {
-  /* content: ""; */
+  content: "";
   position: absolute;
   top: 100%;
   left: 50%;
