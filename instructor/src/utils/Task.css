@@ -132,6 +132,61 @@
   font-size: 16px;
   color: #777;
 }
+/* Tooltip container */
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+.lightbulb-icon{
+  color: #FFC107; /* Warm Yellow */
+  font-size: 5vw; /* Responsive size based on viewport width */
+  max-width: 48px; /* Limit the maximum size */
+  min-width: 24px; /* Ensure a readable minimum size */
+  text-shadow: 0 0 10px rgba(255, 193, 7, 0.6); /* Optional glow effect */
+  margin: auto; /* Center the icon if needed */
+  display: block; /* Ensure the icon behaves predictably */
+}
+/* Tooltip text */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  max-width: 300px; /* Allow longer text */
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  padding: 10px;
+  border-radius: 6px;
+
+  /* Position the tooltip text */
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: normal; /* Allow multi-line text */
+  overflow: visible;
+
+  /* Fade in/out tooltip */
+  opacity: 0;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+
+/* Tooltip arrow */
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+/* Active state for tooltip */
+.tooltip.show .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
 /* Mobile responsiveness */
 @media (max-width: 768px) {
   /* Adjust task item layout */
@@ -229,5 +284,18 @@
   /* Progress percentage */
   .task-list__item-progress-text {
     font-size: 10px;
+  }
+}
+/* Fine-tuning for smaller screens */
+@media (max-width: 600px) {
+  .lightbulb-icon {
+    font-size: 6vw; /* Slightly larger for smaller screens */
+  }
+}
+
+/* Adjustments for larger screens */
+@media (min-width: 1200px) {
+  .lightbulb-icon {
+    font-size: 36px; /* Fixed size for large desktops */
   }
 }

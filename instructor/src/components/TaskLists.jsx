@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
-import TaskModal from '../components/TaskEditModal'; 
+import TaskModal from '../components/TaskEditModal';
 import '../utils/Task.css'
 import apiTask from '../utils/api/tasks.js'
-
+import SubTaskToolTip from '../components/SubTaskToolTip.jsx'
 const TaskList = ({ tasks, setTasks }) => {
   const [expandedTaskId, setExpandedTaskId] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentTask, setCurrentTask] = useState(null);
 
-  
+
   const removeTask = async (taskId) => {
     try {
       const token = localStorage.getItem('token')
-      await apiTask.removeTask(taskId , token);
+      await apiTask.removeTask(taskId, token);
       const updatedTasks = tasks.filter(task => task._id !== taskId);
-      setTasks(updatedTasks); 
+      setTasks(updatedTasks);
     } catch (error) {
       console.error('Error removing task:', error);
     }
@@ -32,7 +32,7 @@ const TaskList = ({ tasks, setTasks }) => {
       task.id === updatedTask.id ? updatedTask : task
     );
     setTasks(updatedTasks);
-    closeModal(); 
+    closeModal();
   };
 
   // Close the modal
@@ -69,7 +69,7 @@ const TaskList = ({ tasks, setTasks }) => {
             <div className="task-list__item-buttons">
               <button
                 className="task-list__item-edit-btn"
-                onClick={() => openEditModal(task)} 
+                onClick={() => openEditModal(task)}
               >
                 Edit
               </button>
@@ -99,6 +99,9 @@ const TaskList = ({ tasks, setTasks }) => {
                         checked={subtask.status === 'completed'}
                       />
                       <span>{subtask.name}</span>
+                      <SubTaskToolTip description="This is a detailed description of the task." handsOnTask="Complete the following steps to achieve this goal."
+/>
+
                     </li>
                   ))}
                 </ul>
@@ -114,7 +117,7 @@ const TaskList = ({ tasks, setTasks }) => {
       {isModalOpen && (
         <TaskModal
           task={currentTask}
-          onSave={saveTask} 
+          onSave={saveTask}
           onClose={closeModal}
           isModalOpen={isModalOpen}
         />
