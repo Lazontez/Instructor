@@ -99,9 +99,7 @@ const TaskList = ({ tasks, setTasks }) => {
                         checked={subtask.status === 'completed'}
                       />
                       <span>{subtask.name}</span>
-                      <SubTaskToolTip description={subtask.description} handsOnTask={subtask.task}
-/>
-
+                      <SubTaskToolTip description={subtask.description} handsOnTask={subtask.task}/>
                     </li>
                   ))}
                 </ul>
