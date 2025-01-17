@@ -92,8 +92,8 @@ const TaskList = ({ tasks, setTasks }) => {
               </button>
               {expandedTaskId === task.id && (
                 <ul className="task-list__subtasks">
-                  {task.subtasks.map((subtask) => (
-                    <li key={subtask.id} className="task-list__subtask-item">
+                  {task.subtasks.map((subtask, index) => (
+                    <li key={index} className="task-list__subtask-item">
                       <input
                         type="checkbox"
                         checked={subtask.status === 'completed'}

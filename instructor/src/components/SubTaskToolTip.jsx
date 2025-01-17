@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../utils/Task.css";
+import HandsOnTaskList from "./HandsOnTaskList";
 
 const SubTaskToolTip = ({ description, handsOnTask }) => {
     const [isTooltipVisible, setTooltipVisible] = useState(false);
@@ -40,13 +41,9 @@ const SubTaskToolTip = ({ description, handsOnTask }) => {
                             <p>
                                 <strong>Description:</strong> {description}
                             </p>
-                            <p>
                                 <strong>Hands-On Task:</strong>
-                                {handsOnTask.map((element, index) => (
-                                    <div key={index}>{index + 1}. {element}</div>
-                                ))}
-
-                            </p>
+                                <HandsOnTaskList handsOnTask={handsOnTask} />
+                            
                         </div>
                     </div>
                 </div>
