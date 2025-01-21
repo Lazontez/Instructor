@@ -81,7 +81,6 @@ const TaskList = ({ tasks, setTasks }) => {
                 Remove
               </button>
             </div>
-
             {/* Subtask dropdown */}
             <div>
               <button
@@ -92,16 +91,19 @@ const TaskList = ({ tasks, setTasks }) => {
               </button>
               {expandedTaskId === task.id && (
                 <ul className="task-list__subtasks">
-                  {task.subtasks.map((subtask, index) => (
-                    <li key={index} className="task-list__subtask-item">
-                      <input
-                        type="checkbox"
-                        checked={subtask.status === 'completed'}
-                      />
-                      <span>{subtask.name}</span>
-                      <SubTaskToolTip description={subtask.description} handsOnTask={subtask.task}/>
-                    </li>
-                  ))}
+                  {(task.status === 'completed'?
+                  <div className='task-completed-msg'>Task successfully completed—great job staying on track!</div>
+                :task.subtasks.map((subtask, index) => (
+                      <li key={index} className="task-list__subtask-item">
+                        <input
+                          type="checkbox"
+                          checked={subtask.status === 'completed'}
+                        />
+                        <span>{subtask.name}</span>
+                        <SubTaskToolTip description={subtask.description} handsOnTask={subtask.task}/>
+                      </li>
+                    ))
+                )}
                 </ul>
               )}
             </div>
