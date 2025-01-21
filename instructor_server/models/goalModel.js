@@ -10,6 +10,7 @@ const subtaskSchema = new mongoose.Schema({
 const goalSchema = new mongoose.Schema({
   name: { type: String, required: true },
   description: { type: String },
+  status: { type: String, enum: ['not-started', 'in-progress', 'completed'], default: 'not-started' },
   subtasks: [subtaskSchema],
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, // Link to user
 });
