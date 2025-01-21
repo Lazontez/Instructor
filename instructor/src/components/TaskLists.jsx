@@ -29,7 +29,7 @@ const TaskList = ({ tasks, setTasks }) => {
   // Function to save an edited task
   const saveTask = (updatedTask) => {
     const updatedTasks = tasks.map(task =>
-      task.id === updatedTask.id ? updatedTask : task
+      task._id === updatedTask._id ? updatedTask : task
     );
     setTasks(updatedTasks);
     closeModal();
@@ -42,7 +42,7 @@ const TaskList = ({ tasks, setTasks }) => {
   };
 
   const calculateProgress = (subtasks) => {
-    if (!subtasks || subtasks.length === 0) return 0;
+    if (!subtasks || subtasks.length === 0) return 100;
     const completed = subtasks.filter((subtask) => subtask.status === 'completed').length;
     return Math.round((completed / subtasks.length) * 100);
   };
@@ -55,7 +55,7 @@ const TaskList = ({ tasks, setTasks }) => {
     <div className="task-list">
       {tasks.length > 0 ? (
         tasks.map((task) => (
-          <div key={task.id} className="task-list__item">
+          <div key={task._id} className="task-list__item">
             <span className="task-list__item-name">{task.name.toUpperCase()}</span>
             <div className="task-list__item-progress-container">
               <div
@@ -85,14 +85,14 @@ const TaskList = ({ tasks, setTasks }) => {
             <div>
               <button
                 className="task-list__item-toggle-btn"
-                onClick={() => toggleSubtasks(task.id)}
+                onClick={() => toggleSubtasks(task._id)}
               >
-                {expandedTaskId === task.id ? 'Hide Subtasks' : 'Show Subtasks'}
+                {expandedTaskId === task._id ? 'Hide Subtasks' : 'Show Subtasks'}
               </button>
-              {expandedTaskId === task.id && (
+              {expandedTaskId === task._id && (
                 <ul className="task-list__subtasks">
                   {(task.status === 'completed'?
-                  <div className='task-completed-msg'>Task completed at the time this goal was created—off to a strong start!</div>
+                  <div className='task-completed-msg'>Goal Completed—good job, lets keep going!</div>
                 :task.subtasks.map((subtask, index) => (
                       <li key={index} className="task-list__subtask-item">
                         <input
