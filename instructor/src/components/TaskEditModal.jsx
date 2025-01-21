@@ -31,7 +31,7 @@ const TaskEditModal = ({ isModalOpen, task, onClose, onSave }) => {
     setIsCompleted(!isCompleted);
   };
 
-  const handleSave = () => {
+  const handleSave = (taskId) => {
     if (taskText.trim()) {
       onSave({
         ...task,

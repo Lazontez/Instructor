@@ -27,10 +27,12 @@ const TaskList = ({ tasks, setTasks }) => {
   };
 
   // Function to save an edited task
-  const saveTask = (updatedTask) => {
+  const saveTask = async (updatedTask) => {
     const updatedTasks = tasks.map(task =>
       task._id === updatedTask._id ? updatedTask : task
     );
+    const token = localStorage.getItem('token')
+    await apiTask.editTask(updatedTask._id, token,updatedTask); 
     setTasks(updatedTasks);
     closeModal();
   };

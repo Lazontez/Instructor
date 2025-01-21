@@ -28,7 +28,6 @@ const apiTask = {
     }
   },
   removeTask: async (taskId , token) => {
-    console.log(taskId)
     try {
       await axios.delete(`https://instructor-server.onrender.com/api/goals/r/${taskId}`,{
         headers: {
@@ -38,6 +37,23 @@ const apiTask = {
         });  
     } catch (error) {
       console.error('Error removing task:', error);
+      throw error;
+    }
+  }, 
+  editTask: async(taskId, token, updatedDetails)=>{
+    try {
+      console.log(token)
+      await axios.put(`https://instructor-server.onrender.com/api/goals/u/${taskId}`,updatedDetails,{
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }},
+        {}
+      ).then(res=>{
+        console.log("Completed", updatedDetails)
+            return res.data
+        });  
+    } catch (error) {
+      console.error('Error editing task:', updatedDetails);
       throw error;
     }
   }
