@@ -92,7 +92,7 @@ const TaskList = ({ tasks, setTasks }) => {
               {expandedTaskId === task.id && (
                 <ul className="task-list__subtasks">
                   {(task.status === 'completed'?
-                  <div className='task-completed-msg'>Task successfully completed—great job staying on track!</div>
+                  <div className='task-completed-msg'>Task completed at the time this goal was created—off to a strong start!</div>
                 :task.subtasks.map((subtask, index) => (
                       <li key={index} className="task-list__subtask-item">
                         <input
