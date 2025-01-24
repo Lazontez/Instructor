@@ -27,9 +27,9 @@ const TaskEditModal = ({ isModalOpen, task, onClose, onSave }) => {
     setDescription(e.target.value);
   };
 
-  const handleCheckboxChange = () => {
-    task.subtasks.forEach(item=>{
-        item.status = 'completed'
+  const handleCheckboxChange = async() => {
+      await task.subtasks.forEach(item=>{
+        item.status = !isCompleted? 'completed':'in-progress'
     })
     setIsCompleted(!isCompleted);
   };
