@@ -28,6 +28,9 @@ const TaskEditModal = ({ isModalOpen, task, onClose, onSave }) => {
   };
 
   const handleCheckboxChange = () => {
+    task.subtasks.forEach(item=>{
+        item.status = 'completed'
+    })
     setIsCompleted(!isCompleted);
   };
 

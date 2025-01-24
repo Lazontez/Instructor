@@ -33,6 +33,7 @@ const TaskList = ({ tasks, setTasks }) => {
     );
     const token = localStorage.getItem('token')
     await apiTask.editTask(updatedTask._id, token,updatedTask); 
+    console.log(updatedTask)
     setTasks(updatedTasks);
     closeModal();
   };
