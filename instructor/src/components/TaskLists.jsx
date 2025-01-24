@@ -53,6 +53,18 @@ const TaskList = ({ tasks, setTasks }) => {
   const toggleSubtasks = (taskId) => {
     setExpandedTaskId((prevTaskId) => (prevTaskId === taskId ? null : taskId));
   };
+  const handleChange = (task, subtask) => (event) => {
+    const updatedSubtask = { ...subtask, status: event.target.checked ? 'completed' : 'incomplete' };
+  
+    setTasks(prevTasks =>
+      prevTasks.map(t =>
+        t._id === task._id
+          ? { ...t, subtasks: t.subtasks.map(st => st._id === subtask._id ? updatedSubtask : st) }
+          : t
+      )
+    );
+  };
+  
 
   return (
     <div className="task-list">
@@ -99,6 +111,7 @@ const TaskList = ({ tasks, setTasks }) => {
                 :task.subtasks.map((subtask, index) => (
                       <li key={index} className="task-list__subtask-item">
                         <input
+                          onChange={handleChange(task, subtask)}
                           type="checkbox"
                           checked={subtask.status === 'completed'}
                         />
