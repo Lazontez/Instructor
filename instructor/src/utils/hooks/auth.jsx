@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import {jwtDecode} from 'jwt-decode'; 
 
 export const useAuth = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(localStorage.getItem('token') === null? false:true);
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
   const [userRole, setUserRole] = useState(null);
   const [loading, setLoading] = useState(true);
   useEffect(() => {

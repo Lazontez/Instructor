@@ -33,7 +33,6 @@ const TaskList = ({ tasks, setTasks }) => {
     );
     const token = localStorage.getItem('token')
     await apiTask.editTask(updatedTask._id, token,updatedTask); 
-    console.log(updatedTask)
     setTasks(updatedTasks);
     closeModal();
   };
@@ -53,17 +52,40 @@ const TaskList = ({ tasks, setTasks }) => {
   const toggleSubtasks = (taskId) => {
     setExpandedTaskId((prevTaskId) => (prevTaskId === taskId ? null : taskId));
   };
-  const handleChange = (task, subtask) => (event) => {
-    const updatedSubtask = { ...subtask, status: event.target.checked ? 'completed' : 'incomplete' };
+  const handleChange = (task, subtask) => async (event) => {
+    const updatedSubtask = { 
+      ...subtask, 
+      status: event.target.checked ? 'completed' : 'incomplete' 
+    };
   
-    setTasks(prevTasks =>
-      prevTasks.map(t =>
-        t._id === task._id
-          ? { ...t, subtasks: t.subtasks.map(st => st._id === subtask._id ? updatedSubtask : st) }
-          : t
-      )
+    // Update the local subtask
+    const updatedTasks = tasks.map(t =>
+      t._id === task._id
+        ? { 
+            ...t, 
+            subtasks: t.subtasks.map(st => 
+              st._id === subtask._id ? updatedSubtask : st
+            ) 
+          }
+        : t
     );
+    setTasks(updatedTasks);
+  
+    try {
+   
+      const token = localStorage.getItem('token');
+      await apiTask.editTask(task._id, token, {
+        subtasks: task.subtasks.map(st => 
+          st._id === subtask._id ? updatedSubtask : st
+        ),
+      });
+      console.log('Task updated successfully');
+    } catch (error) {
+      console.error('Error updating task:', error);
+    }
   };
+  
+
   
 
   return (

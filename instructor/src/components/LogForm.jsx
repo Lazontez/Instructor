@@ -1,89 +1,100 @@
 import React, { useState } from 'react';
-import '../utils/LogForm.css'; // Import the CSS for styling
+import '../utils/LogForm.css'; // External CSS for styles
 
-function LogForm({ addTask }) {
+const LogForm = ({ addTask }) => {
   const [taskText, setTaskText] = useState('');
   const [description, setDescription] = useState('');
-  const [isCompleted, setIsCompleted] = useState(false);
+  const [category, setCategory] = useState('Music Theory');
+  const [showForm, setShowForm] = useState(false);
+  const [isAddingTask , setIsAddingTask] = useState(false)
 
-  const handleInputChange = (e) => {
-    const regex = /^[a-zA-Z0-9\s.,!?()_-]*$/;
-    const value = e.target.value;
-    if (regex.test(value)) {
-      setTaskText(value);
-    }
-  };
-
-  const handleDescriptionChange = (e) => {
-    setDescription(e.target.value);
-  };
-
-  const handleCheckboxChange = () => {
-    setIsCompleted(!isCompleted);
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsAddingTask(true)
     if (taskText.trim()) {
-      addTask({
+      await addTask({
         id: Date.now(),
         name: taskText,
-        description: description,
-        status: isCompleted ? 'completed' : 'in-progress',
-        progress: 75,
-        subtasks: [
-          { id: 1, name: "Barre Chords", status: 'in-progress' },
-          { id: 2, name: "Learn Scales", status: 'completed' },
-      ]
+        description,
+        category,
+        status: 'in-progress',
+        progress: 0,
+        subtasks: [],
       });
       setTaskText('');
       setDescription('');
-      setIsCompleted(false);
+      setCategory('Music Theory');
+      setIsAddingTask(false)
+      setShowForm(false);
     }
   };
 
+  const toggleForm = () => {
+    setShowForm(!showForm);
+  };
+
   return (
-    <form className="log-form" onSubmit={handleSubmit}>
-      {/* Input Field for Task Name */}
-      <input
-        className="log-form__input"
-        type="text"
-        value={taskText}
-        onChange={handleInputChange}
-        placeholder="Add a task"
-        maxLength={35}
-      />
-
-      {/* Description Textarea */}
-      <textarea
-        className="log-form__textarea"
-        placeholder="Task description (optional)"
-        value={description}
-        onChange={handleDescriptionChange}
-      ></textarea>
-
-      {/* Checkbox for Completed Status */}
-      <label className="log-form__checkbox-label">
-        <input
-          type="checkbox"
-          checked={isCompleted}
-          onChange={handleCheckboxChange}
-          className="log-form__checkbox"
-        />
-        Mark as completed
-      </label>
-
-      {/* Submit Button */}
-      <button
-        className="log-form__submit-btn"
-        type="submit"
-        disabled={!taskText.trim()}
-      >
-        Add Task
+    <>
+      <button className="log-form__toggle-btn" onClick={toggleForm}>
+        {showForm ? 'Cancel' : 'Add New Task'}
       </button>
-    </form>
+
+      {showForm && (
+        <div className="log-form__backdrop" onClick={() => setShowForm(false)}>
+          <div
+            className="log-form__container"
+            onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside the form
+          >
+            <button
+              className="log-form__close-btn"
+              onClick={() => setShowForm(false)}
+            >
+              &times;
+            </button>
+            <form className="log-form" onSubmit={handleSubmit}>
+              <h2 className="log-form__title">Add a New Task</h2>
+
+              <input
+                className="log-form__input"
+                type="text"
+                value={taskText}
+                onChange={(e) => setTaskText(e.target.value)}
+                placeholder="Task Name"
+                maxLength={50}
+                required
+              />
+
+              <textarea
+                className="log-form__textarea"
+                placeholder="Task Description (optional)"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              ></textarea>
+
+              <select
+                className="log-form__dropdown"
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+              >
+                <option value="Music Theory">Music Theory</option>
+                <option value="Songs">Songs</option>
+                <option value="Technique">Technique</option>
+              </select>
+
+              <button className="log-form__submit-btn" type="submit">
+                {isAddingTask? "Adding Task...." : "Add Task"}
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+    </>
   );
-}
+};
 
 export default LogForm;
+
+
+
+
 

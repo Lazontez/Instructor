@@ -47,6 +47,7 @@ function App() {
         if (decodedToken) {
           setIsAuthenticated(true);
           setUserRole(decodedToken.role);
+      
         }
       } catch (error) {
         console.error("Invalid token", error);
