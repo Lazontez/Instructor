@@ -1,20 +1,11 @@
-import React, { useState , useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import '../utils/Login.css';
 import axios from 'axios';
-import {jwtDecode} from 'jwt-decode'; 
+import { jwtDecode } from 'jwt-decode';
 import { useAuth } from '../utils/hooks/auth.jsx';
 
 // MUI imports
-import {
-  TextField,
-  Button,
-  Container,
-  Typography,
-  Box,
-  ThemeProvider,
-  createTheme,
-} from '@mui/material';
+import { TextField, Button, Container, Typography, Box, ThemeProvider, createTheme } from '@mui/material';
 
 const theme = createTheme({
   palette: {
@@ -32,41 +23,49 @@ const theme = createTheme({
   },
 });
 
-
-
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const {isAuthenticated, userRole, setIsAuthenticated, setUserRole } = useAuth();
+  const { isAuthenticated, setIsAuthenticated, setUserRole } = useAuth();
   const navigate = useNavigate();
 
   const onLogin = async () => {
     const data = { email, password };
-  
+
+    switch(isAuthenticated) {
+      case true:
+        navigate('/dashboard')
+        break;
+    }
+
     try {
       const res = await axios.post('https://instructor-server.onrender.com/api/user/login', data);
       if (res.status === 200 && res.data.token) {
         const token = res.data.token;
         const decodedToken = jwtDecode(token);
+
+        // Store token and role in localStorage
         localStorage.setItem('token', token);
         localStorage.setItem('role', decodedToken.role);
+
+        // Update authentication state
         setIsAuthenticated(true);
-        setUserRole(decodedToken.role);
-        // Navigate to the dashboard immediately
-        navigate('/dashboard');
+        setUserRole(decodedToken.role)
+
+        navigate('/dashboard')
       }
     } catch (err) {
       console.error('Login error:', err.response?.data || err.message);
       setError('Invalid email or password. Please try again.');
     }
   };
-  
 
   const handleSubmit = (e) => {
     e.preventDefault();
     onLogin();
   };
+
   return (
     <ThemeProvider theme={theme}>
       <Container maxWidth="xs">
@@ -95,24 +94,13 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              fullWidth
-              sx={{ marginTop: 2 }}
-            >
+            <Button type="submit" variant="contained" color="primary" fullWidth sx={{ marginTop: 2 }}>
               Login
             </Button>
           </form>
 
           {error && (
-            <Typography
-              color="error"
-              align="center"
-              sx={{ marginTop: 2 }}
-              className="error"
-            >
+            <Typography color="error" align="center" sx={{ marginTop: 2 }} className="error">
               {error}
             </Typography>
           )}
@@ -127,6 +115,8 @@ const Login = () => {
 };
 
 export default Login;
+
+
 
 
 
