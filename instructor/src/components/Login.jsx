@@ -43,23 +43,28 @@ const Login = () => {
 
   const onLogin = async () => {
     const data = { email, password };
-
+  
     try {
       const res = await axios.post('https://instructor-server.onrender.com/api/user/login', data);
       if (res.status === 200 && res.data.token) {
         const token = res.data.token;
         const decodedToken = jwtDecode(token);
+  
+        
         localStorage.setItem('token', token);
         localStorage.setItem('role', decodedToken.role);
-        setIsAuthenticated(true)
+        setIsAuthenticated(true);
         setUserRole(decodedToken.role);
-        navigate('/dashboard')
+  
+        // Navigate to the dashboard immediately
+        navigate('/dashboard');
       }
     } catch (err) {
       console.error('Login error:', err.response?.data || err.message);
       setError('Invalid email or password. Please try again.');
     }
   };
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
