@@ -3,7 +3,6 @@ import axios from 'axios';
 const apiTask = {
   getTasks: async (userId , token) => {
     try {
-        console.log("response")
       const response = await axios.get(`https://instructor-server.onrender.com/api/goals/g/${userId}` , {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -24,7 +23,7 @@ const apiTask = {
       }); 
       return response.data;
     }else{
-      console.log('Task Details Not Found')
+     return `Task: ${task}`
     }
   },
   removeTask: async (taskId , token) => {
@@ -49,7 +48,6 @@ const apiTask = {
         }},
         {}
       ).then(res=>{
-        console.log("Completed", updatedDetails)
             return res.data
         });  
     } catch (error) {

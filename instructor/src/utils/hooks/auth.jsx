@@ -14,7 +14,6 @@ export const useAuth = () => {
     }
     return false;
   });
-
   const [userRole, setUserRole] = useState(() => localStorage.getItem('role') || null);
   const [loading, setLoading] = useState(true);
 
@@ -26,6 +25,7 @@ export const useAuth = () => {
       try {
         const decodedToken = jwtDecode(token);
         if (decodedToken.exp * 1000 > Date.now()) {
+          console.log(window.document.URL)
           setIsAuthenticated(true);
           setUserRole(role);
         } else {

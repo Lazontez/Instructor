@@ -49,13 +49,10 @@ const Login = () => {
       if (res.status === 200 && res.data.token) {
         const token = res.data.token;
         const decodedToken = jwtDecode(token);
-  
-        
         localStorage.setItem('token', token);
         localStorage.setItem('role', decodedToken.role);
         setIsAuthenticated(true);
         setUserRole(decodedToken.role);
-  
         // Navigate to the dashboard immediately
         navigate('/dashboard');
       }
