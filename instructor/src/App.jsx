@@ -37,6 +37,7 @@ function App() {
   ]);
 
   if (loading) {
+    console.log('We are loading')
     return <div>Loading...</div>; 
   }
   
