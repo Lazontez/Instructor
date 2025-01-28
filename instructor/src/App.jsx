@@ -8,7 +8,6 @@ import { useAuth } from './utils/hooks/auth.jsx';
 
 function App() {
   const { isAuthenticated, userRole, loading } = useAuth();
-  console.log(window.document.URL , 'APP')
 
   const [tasks, setTasks] = useState([
     // Example tasks data
@@ -38,7 +37,6 @@ function App() {
   ]);
 
   if (loading) {
-    console.log('We are loading')
     return <div>Loading...</div>; 
   }
   
