@@ -16,6 +16,7 @@ const apiTask = {
   },
   addTask: async(task , token) =>{
     if(task){
+      console.log(task)
       const response = await axios.post(`https://instructor-server.onrender.com/api/goals/c` , task, {
         headers: {
           Authorization: `Bearer ${token}`,
