@@ -15,7 +15,7 @@ router.post('/c',authMiddleware, async (req, res) => {
   try {
     const { name, description, status, category } = req.body;
     const user = req.user.id
-    const subtaskSuggestion = status === "completed"? [] : await suggestions({title: name, skill:"Beginner", category:category});
+    const subtaskSuggestion = status === "completed"? [] : await suggestions({title: name, skill:"Beginner"});
     const newGoal = await new Goal({
       name,
       description,
