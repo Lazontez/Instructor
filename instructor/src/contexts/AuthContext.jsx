@@ -1,19 +1,22 @@
-import { useState, useEffect } from 'react';
-import {jwtDecode} from 'jwt-decode';
+import { createContext, useContext, useState, useEffect } from 'react';
+import { jwtDecode } from 'jwt-decode';
 
-export const useAuth = () => {
+const AuthContext = createContext();
+
+export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
     const token = localStorage.getItem('token');
     if (token) {
       try {
         const decodedToken = jwtDecode(token);
-        return decodedToken.exp * 1000 > Date.now(); 
+        return decodedToken.exp * 1000 > Date.now();
       } catch {
         return false;
       }
     }
     return false;
   });
+
   const [userRole, setUserRole] = useState(() => localStorage.getItem('role') || null);
   const [loading, setLoading] = useState(true);
 
@@ -38,14 +41,14 @@ export const useAuth = () => {
     } else {
       setIsAuthenticated(false);
     }
-    setLoading(false); 
-  }, [isAuthenticated]);
+    setLoading(false);
+  }, []);
 
-  return { isAuthenticated, setIsAuthenticated, userRole, setUserRole, loading };
+  return (
+    <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated, userRole, setUserRole, loading }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
-
-
-
-
-
+export const useAuth = () => useContext(AuthContext);

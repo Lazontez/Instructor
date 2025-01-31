@@ -27,33 +27,36 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const { isAuthenticated, setIsAuthenticated, setUserRole } = useAuth();
+  const { setIsAuthenticated, setUserRole } = useAuth();
   const navigate = useNavigate();
 
-  const onLogin = async () => {
-    const data = { email, password };
-
-    switch(isAuthenticated) {
-      case true:
-        navigate('/dashboard')
-        break;
-    }
-
+  // Function to store user data and update auth state
+  const handleAuthSuccess = (token) => {
     try {
-      const res = await axios.post('https://instructor-server.onrender.com/api/user/login', data);
+      const decodedToken = jwtDecode(token);
+      localStorage.setItem('token', token);
+      localStorage.setItem('role', decodedToken.role);
+
+      setUserRole(decodedToken.role);
+      setIsAuthenticated(true); // Will trigger re-render in protected routes
+
+      navigate('/dashboard');
+    } catch (err) {
+      console.error('Token decoding error:', err);
+      setError('Authentication failed. Please try again.');
+    }
+  };
+
+  // Login function
+  const onLogin = async () => {
+    try {
+      const res = await axios.post('https://instructor-server.onrender.com/api/user/login', {
+        email,
+        password,
+      });
+
       if (res.status === 200 && res.data.token) {
-        const token = res.data.token;
-        const decodedToken = jwtDecode(token);
-
-        // Store token and role in localStorage
-        localStorage.setItem('token', token);
-        localStorage.setItem('role', decodedToken.role);
-
-        // Update authentication state
-        setIsAuthenticated(true);
-        setUserRole(decodedToken.role)
-
-        navigate('/dashboard')
+        handleAuthSuccess(res.data.token);
       }
     } catch (err) {
       console.error('Login error:', err.response?.data || err.message);
@@ -100,7 +103,7 @@ const Login = () => {
           </form>
 
           {error && (
-            <Typography color="error" align="center" sx={{ marginTop: 2 }} className="error">
+            <Typography color="error" align="center" sx={{ marginTop: 2 }}>
               {error}
             </Typography>
           )}
@@ -115,6 +118,7 @@ const Login = () => {
 };
 
 export default Login;
+
 
 
 
