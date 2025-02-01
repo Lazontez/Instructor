@@ -4,7 +4,7 @@ import '../utils/Login.css';  // Keep your custom styles if needed
 import axios from 'axios';
 
 // MUI imports
-import { TextField, Button, Container, Typography, Box, ThemeProvider, createTheme } from '@mui/material';
+import { TextField, Button, Container, Typography, Box, ThemeProvider, createTheme, FormControl, Select, InputLabel, MenuItem } from '@mui/material';
 
 const theme = createTheme({
   palette: {
@@ -25,9 +25,11 @@ const theme = createTheme({
 const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [username, setUsername] = useState('')
+  const [username, setUsername] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [error, setError] = useState(''); // To store the error message
+  const [skillLevel, setSkillLevel] = useState('');
+  const [role, setRole] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const onSignUp = () => {
@@ -37,19 +39,20 @@ const SignUp = () => {
     }
 
     const data = {
-      email: email,
-      password: password,
-      username: username
+      email: email.toLowerCase(),
+      password,
+      username,
+      skillLevel,
+      role
     };
 
     axios
       .post('https://instructor-server.onrender.com/api/user/n', data)
       .then((res) => {
-        console.log(data)
         if (res.status === 200 && res.data['New User']) {
           navigate('/login');
-        }else{
-            setError('An unexpected error occurred.')
+        } else {
+          setError('An unexpected error occurred.');
         }
       })
       .catch((err) => {
@@ -81,7 +84,7 @@ const SignUp = () => {
           <Typography variant="h4" gutterBottom align="center">Sign Up</Typography>
 
           <form onSubmit={handleSubmit}>
-          <TextField
+            <TextField
               label="Username"
               variant="outlined"
               fullWidth
@@ -119,6 +122,37 @@ const SignUp = () => {
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
             />
+
+            {/* Skill Level & Role Dropdowns - Side by Side */}
+            <Box sx={{ display: 'flex', gap: 2, marginTop: 2 }}>
+              <FormControl fullWidth>
+                <InputLabel>Skill Level</InputLabel>
+                <Select
+                  value={skillLevel}
+                  onChange={(e) => setSkillLevel(e.target.value)}
+                  required
+                >
+                  <MenuItem value="Beginner">Beginner - Just starting out</MenuItem>
+                  <MenuItem value="Intermediate">Intermediate - Comfortable with chords & basic songs</MenuItem>
+                  <MenuItem value="Advanced">Advanced - Confident with solos & techniques</MenuItem>
+                  <MenuItem value="Expert">Expert - Professional or highly skilled player</MenuItem>
+                </Select>
+              </FormControl>
+
+              <FormControl fullWidth>
+                <InputLabel>Role</InputLabel>
+                <Select
+                  value={role}
+                  onChange={(e) => setRole(e.target.value)}
+                  required
+                >
+                  <MenuItem value="Student">Student - Learning & tracking progress</MenuItem>
+                  {/* <MenuItem value="Teacher">Teacher - Managing student goals</MenuItem>
+                  <MenuItem value="Parent">Parent - Overseeing child's practice</MenuItem> */}
+                </Select>
+              </FormControl>
+            </Box>
+
             <Button
               type="submit"
               variant="contained"
@@ -129,6 +163,7 @@ const SignUp = () => {
               Sign Up
             </Button>
           </form>
+
           {error && <p className="error">{error}</p>}
 
           <Typography align="center" sx={{ marginTop: 2 }}>
