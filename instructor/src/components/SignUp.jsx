@@ -43,7 +43,7 @@ const SignUp = () => {
       password,
       username,
       skillLevel,
-      role
+      role: role.toLowerCase()
     };
 
     axios

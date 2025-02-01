@@ -51,7 +51,7 @@ const Login = () => {
   const onLogin = async () => {
     try {
       const res = await axios.post('https://instructor-server.onrender.com/api/user/login', {
-        email,
+        email: email.toLowerCase(),
         password,
       });
 
