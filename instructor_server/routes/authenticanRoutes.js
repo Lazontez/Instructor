@@ -23,15 +23,14 @@ const SECRET_KEY = "Test"
 //Login
 router.post('/login', async(req,res)=>{
     const {email,password} = req.body;
+    console.log(`Attempting to log ${email}  in.....`)
     try{
         const user = await User.findOne({email})
         if(!user) return res.status(404).json({error: "User not found"})
         const isMatch = await bcrypt.compare(password,user.password)
         if(!isMatch) return  res.status(401).json({error: "Invalid Credentials"})
-        const token = jwt.sign({id: user.id, role: user.role}, SECRET_KEY, {expiresIn: '1hr'})
+        const token = jwt.sign({id: user.id, role: user.role, experience: user.experience}, SECRET_KEY, {expiresIn: '1hr'})
         res.json({token})
-
-
     }catch(err){
             res.status(500).json({error:"Error Logging in", err})
         }

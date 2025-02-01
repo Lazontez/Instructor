@@ -12,10 +12,12 @@ const suggestions = require('../helpers/suggestions.js')
 
 // Create a new goal
 router.post('/c',authMiddleware, async (req, res) => {
+  console.log('Creating New Goal')
   try {
     const { name, description, status, category } = req.body;
     const user = req.user.id
-    const subtaskSuggestion = status === "completed"? [] : await suggestions({title: name, skill:"Beginner"});
+    const userExp = req.user.experience
+    const subtaskSuggestion = status === "completed"? [] : await suggestions({title: name, skill:userExp || 'Beginner'});
     const newGoal = await new Goal({
       name,
       description,
