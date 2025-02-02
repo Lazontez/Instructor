@@ -44,7 +44,7 @@ This is for a ${goal.skill} guitarist in the category of ${goal.category}. Alway
     });
 
     const responseText = completion.choices[0].message.content;
-
+    console.log(responseText)
     // Use regex to extract JSON
     const jsonMatch = responseText.match(/```json\n([\s\S]*?)\n```/);
     if (jsonMatch && jsonMatch[1]) {
