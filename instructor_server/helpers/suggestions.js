@@ -58,12 +58,14 @@ async function generateSubtask(goal) {
             const response = JSON.parse(jsonString);
 
             if (response.unrelated) {
+                console.log(responseText)
                 return ({ "unrelated": true })
             }
             else {
                 return (response.subtasks)
             }
         } catch (error) {
+            console.log(responseText)
             console.error("JSON parsing failed:", error.message);
             return []
         }
