@@ -29,7 +29,7 @@ async function generateSubtask(goal) {
                 task: A practical activity the user can do to complete the subtask(This should be within 5 steps max).
                 dad_joke: A guitar-related dad joke for motivation.
             
-                Only provide responses strictly related to guitar and related topics. Avoid any unrelated content. If you do not believe the users goal is related to guitar add a key to the datatype called(unrelated and it should be a boolean value of true). Before sending please confirm that is it in the data template desribed earlier
+                Only provide responses strictly related to guitar and related topics. Avoid any unrelated content. If you do not believe the users goal is related to guitar and you are highly confident that it is not related, add a key to the datatype called(unrelated and it should be a boolean value of true).If you think that it could possibly be related, Add the goal without the unrelated field, with the guitar related tasks and it should maintain the previously mentioned formatting rules. Before sending please confirm that is it in the data template desribed earlier
                 
                 Formatting Rules: ${rules}
                 `
