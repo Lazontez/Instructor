@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../utils/LogForm.css'; // External CSS for styles
+import '../utils/LogForm.css'; 
 
 const LogForm = ({ addTask }) => {
   const [taskText, setTaskText] = useState('');
@@ -12,7 +12,6 @@ const LogForm = ({ addTask }) => {
     e.preventDefault();
     setIsAddingTask(true)
     if (taskText.trim()) {
-      console.log(category)
       await addTask({
         id: Date.now(),
         name: taskText,

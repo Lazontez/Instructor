@@ -79,7 +79,6 @@ const TaskList = ({ tasks, setTasks }) => {
           st._id === subtask._id ? updatedSubtask : st
         ),
       });
-      console.log('Task updated successfully');
     } catch (error) {
       console.error('Error updating task:', error);
     }
