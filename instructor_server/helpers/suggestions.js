@@ -1,10 +1,10 @@
 const { OpenAI } = require('openai').default;
 const dotenv = require('dotenv')
-const result = dotenv.config()
+dotenv.config();
 
 const openai = new OpenAI({
     apiKey: process.env.OPENAIAPIKEY
-})
+});
 
 const rules = `
 1. Formatting Rule: Always include the following syntax around the JSON response:
@@ -23,17 +23,11 @@ async function generateSubtask(goal) {
         messages: [
             {
                 role: "system",
-                content: `You are a guitar teacher with a calm and wise grandpa attitude, teaching a ${goal.skill} guitarist how to learn guitar, understand guitar amps, explore guitar effects, and related topics. This specific request is for learning ${goal.category}  Always respond in a structured JSON format with the following keys:
-  - main_goal: A single overarching goal.
-  - subtasks: An array of subtasks, where each subtask is an object with the following properties:
-      - name: The title of the subtask.
-      - description: A detailed explanation of the subtask.
-      - task: A practical activity the user can do to complete the subtask (this should be within 5 steps max).
-      - dad_joke: A guitar-related dad joke for motivation.
-      
-Only provide responses strictly related to guitar and related topics. If the user's goal might not explicitly mention the word "guitar" (for example, genres like Neosoul, Blues, or Jazz that can involve guitar playing), treat it as guitar-related. Only add the key "unrelated": true if you are certain the user's goal is completely outside the realm of guitar and related subjects.
+                content: `You are a guitar teacher with a calm and wise grandpa attitude, teaching a ${goal.skill} guitarist how to learn guitar, understand guitar amps, explore guitar effects, and related topics. 
+This specific request is for learning ${goal.category}. 
 
-Before sending, please confirm that the response is in the data template described above.
+Only provide responses strictly related to guitar and related topics. If the user's goal involves a **music genre, playing style, technique, or performance**, assume it is guitar-related unless explicitly stated otherwise. 
+**Only add "unrelated": true if you are absolutely certain the user's goal has no connection to guitar, playing guitar, guitar theory, or performance.** 
 
 Formatting Rules: ${rules}`
             },
@@ -44,39 +38,34 @@ Formatting Rules: ${rules}`
 - Title (a string datatype)
 - Description (a string datatype)
 - HandsOnTask (an array with no more than 3 steps)
-This is for a ${goal.skill} guitarist. Always have hands on examples.`
+This is for a ${goal.skill} guitarist in the category of ${goal.category}. Always provide hands-on examples.`
             },
         ],
-    })
+    });
 
     const responseText = completion.choices[0].message.content;
 
-    const start = responseText.indexOf('{');
-    const end = responseText.lastIndexOf("```");
-
-    if (start !== -1 && end !== -1) {
-        const jsonString = responseText.slice(start, end).trim();
-
+    // Use regex to extract JSON
+    const jsonMatch = responseText.match(/```json\n([\s\S]*?)\n```/);
+    if (jsonMatch && jsonMatch[1]) {
+        const jsonString = jsonMatch[1].trim();
         try {
             const response = JSON.parse(jsonString);
-
-            if (response.unrelated) {
-                return ({ "unrelated": true })
-            } else {
-                return (response.subtasks)
-            }
+            return response.unrelated ? { "unrelated": true } : response.subtasks;
         } catch (error) {
             console.error("JSON parsing failed:", error.message);
-            return []
+            return [];
         }
     } else {
         console.error("Could not locate JSON content.");
-        return
+        return [];
     }
 }
 
-generateSubtask({ title: "Learn Neo Soul" })
+// Example call
+generateSubtask({ title: "Learn Neo Soul", category: "Learn a music theory concept", skill: "Intermediate" });
 
-module.exports = generateSubtask
+module.exports = generateSubtask;
+
 // Front End Categories
 // 1. Learn a music theory concept 2. Learn a song 3. Performance 4. Practice Routine
