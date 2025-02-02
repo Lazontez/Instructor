@@ -3,7 +3,7 @@ const dotenv = require('dotenv')
 const result = dotenv.config()
 
 const openai = new OpenAI({
-    apiKey: process.env.OPENAIAPIKEY 
+    apiKey: process.env.OPENAIAPIKEY
 })
 
 const rules = `
@@ -28,9 +28,12 @@ async function generateSubtask(goal) {
                 description: A detailed explanation of the subtask.
                 task: A practical activity the user can do to complete the subtask(This should be within 5 steps max).
                 dad_joke: A guitar-related dad joke for motivation.
+
             
                 Only provide responses strictly related to guitar and related topics. Avoid any unrelated content. If you do not believe the users goal is related to guitar and you are highly confident that it is not related, add a key to the datatype called(unrelated and it should be a boolean value of true).If you think that it could possibly be related, Add the goal without the unrelated field, with the guitar related tasks and it should maintain the previously mentioned formatting rules. Before sending please confirm that is it in the data template desribed earlier
                 
+                If the user's request mentions a **song**, treat it as guitar-related and include guitar-specific tasks that the user can perform related to that song (such as learning riffs, solos, chord progressions, etc.).
+
                 Formatting Rules: ${rules}
                 `
             }, {
@@ -43,12 +46,12 @@ async function generateSubtask(goal) {
 
     const responseText = completion.choices[0].message.content;
 
-   
+
     const start = responseText.indexOf('{');
     const end = responseText.lastIndexOf("```");
 
     if (start !== -1 && end !== -1) {
-       
+
         const jsonString = responseText.slice(start, end).trim();
 
         try {
@@ -66,7 +69,7 @@ async function generateSubtask(goal) {
         }
     } else {
         console.error("Could not locate JSON content.");
-        return 
+        return
     }
 }
 generateSubtask({ title: "Learn 3 Little Birds by Bob Marley" })
