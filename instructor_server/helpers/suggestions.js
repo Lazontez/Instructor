@@ -18,49 +18,55 @@ const rules = `
 `;
 
 async function generateSubtask(goal) {
-    const completion = await openai.chat.completions.create({
-        model: "gpt-4o-mini",
-        messages: [
-            {
-                role: "system",
-                content: `You are a guitar teacher with a calm and wise grandpa attitude, teaching a ${goal.skill} guitarist how to learn guitar, understand guitar amps, explore guitar effects, and related topics. 
-                This specific request is for learning ${goal.category}. 
+    try {
+        const completion = await openai.chat.completions.create({
+            model: "gpt-4o-mini",
+            messages: [
+                {
+                    role: "system",
+                    content: `You are a guitar teacher with a calm and wise grandpa attitude, teaching a ${goal.skill} guitarist how to learn guitar, understand guitar amps, explore guitar effects, and related topics. 
+                    This specific request is for learning ${goal.category}. 
 
-                Only provide responses strictly related to guitar and related topics. If the user's goal involves a **music genre, playing style, technique, or performance**, assume it is guitar-related unless explicitly stated otherwise. 
-                **Only add "unrelated": true if you are absolutely certain the user's goal has no connection to guitar, playing guitar, guitar theory, or performance.** 
+                    Only provide responses strictly related to guitar and related topics. If the user's goal involves a **music genre, playing style, technique, or performance**, assume it is guitar-related unless explicitly stated otherwise. 
+                    **Only add "unrelated": true if you are absolutely certain the user's goal has no connection to guitar, playing guitar, guitar theory, or performance.** 
 
-                Formatting Rules: ${rules}`
-            },
-            {
-                role: "user",
-                type: "json",
-                content: `Provide a detailed, structured task list for ${goal.title}. Format the response as JSON with the following keys:
+                    Formatting Rules: ${rules}`
+                },
+                {
+                    role: "user",
+                    content: `Provide a detailed, structured task list for ${goal.title}. Format the response as JSON with the following keys:
 - Title (a string datatype)
 - Description (a string datatype)
 - HandsOnTask (an array with no more than 3 steps)
 This is for a ${goal.skill} guitarist in the category of ${goal.category}. Always provide hands-on examples.`
-            },
-        ],
-    });
+                },
+            ],
+        });
 
-    const responseText = completion.choices[0].message.content;
-    console.log(responseText)
-    // Use regex to extract JSON
-    const jsonMatch = responseText.match(/```json\n([\s\S]*?)\n```/);
-    if (jsonMatch && jsonMatch[1]) {
+        const responseText = completion.choices[0].message.content;
+        console.log(responseText);
+        const jsonMatch = responseText.match(/```json\n([\s\S]*?)\n```/);
+
+        if (!jsonMatch) {
+            console.error("Could not locate JSON content.");
+            return null;
+        }
+
         const jsonString = jsonMatch[1].trim();
+
         try {
             const response = JSON.parse(jsonString);
-            return response.unrelated ? { "unrelated": true } : response.subtasks;
+            return response.unrelated ? { unrelated: true } : response;
         } catch (error) {
             console.error("JSON parsing failed:", error.message);
-            return [];
+            return null;
         }
-    } else {
-        console.error("Could not locate JSON content.");
-        return [];
+    } catch (error) {
+        console.error("OpenAI API request failed:", error);
+        return null;
     }
 }
+
 
 // Example call
 generateSubtask({ title: "Learn Neo Soul", category: "Learn a music theory concept", skill: "Intermediate" });
