@@ -32,7 +32,7 @@ async function generateSubtask(goal) {
             
                 Only provide responses strictly related to guitar and related topics. Avoid any unrelated content. If you do not believe the users goal is related to guitar and you are highly confident that it is not related, add a key to the datatype called(unrelated and it should be a boolean value of true).If you think that it could possibly be related, Add the goal without the unrelated field, with the guitar related tasks and it should maintain the previously mentioned formatting rules. Before sending please confirm that is it in the data template desribed earlier
                 
-                If the user's request mentions a **song**, treat it as guitar-related and include guitar-specific tasks that the user can perform related to that song (such as learning riffs, solos, chord progressions, etc.).
+                If the user's request mentions a **song**, treat it as guitar-related and include guitar-specific tasks that the user can perform related to that song (such as learning riffs, solos, chord progressions, etc.) ***Please double check that this is formatted in the correct format mentioned previously***.
 
                 Formatting Rules: ${rules}
                 `
