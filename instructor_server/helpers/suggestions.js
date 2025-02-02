@@ -1,5 +1,5 @@
 const { OpenAI } = require('openai').default;
-const dotenv = require('dotenv')
+const dotenv = require('dotenv');
 dotenv.config();
 
 const openai = new OpenAI({
@@ -30,16 +30,52 @@ async function generateSubtask(goal) {
                     Only provide responses strictly related to guitar and related topics. If the user's goal involves a **music genre, playing style, technique, or performance**, assume it is guitar-related unless explicitly stated otherwise. 
                     **Only add "unrelated": true if you are absolutely certain the user's goal has no connection to guitar, playing guitar, guitar theory, or performance.** 
 
-                    Formatting Rules: ${rules}`
+                    Formatting Rules: ${rules}
+
+                    The response must follow this **exact JSON structure**:
+                    {
+                        "Title": "Main goal of the task",
+                        "Description": "A brief overview of what this task accomplishes",
+                        "main_goal": "A single overarching goal",
+                        "subtasks": [
+                            {
+                                "name": "Title of the subtask",
+                                "description": "Detailed explanation of the subtask",
+                                "task": [
+                                    "Step 1 of practical activity",
+                                    "Step 2 of practical activity",
+                                    "Step 3 of practical activity",
+                                    "Step 4 of practical activity",
+                                    "Step 5 of practical activity (max)"
+                                ],
+                                "dad_joke": "A guitar-related dad joke for motivation"
+                            }
+                        ]
+                    }`
                 },
                 {
                     role: "user",
                     content: `Provide a detailed, structured task list for ${goal.title}. Format the response as JSON with the following keys:
-- Title (a string datatype)
-- Description (a string datatype)
-- HandsOnTask (an array with no more than 3 steps)
-This is for a ${goal.skill} guitarist in the category of ${goal.category}. Always provide hands-on examples.`
-                },
+{
+    "Title": "Main goal of the task",
+    "Description": "A brief overview of what this task accomplishes",
+    "main_goal": "A single overarching goal",
+    "subtasks": [
+        {
+            "name": "Title of the subtask",
+            "description": "Detailed explanation of the subtask",
+            "task": [
+                "Step 1 of practical activity",
+                "Step 2 of practical activity",
+                "Step 3 of practical activity",
+                "Step 4 of practical activity",
+                "Step 5 of practical activity (max)"
+            ],
+            "dad_joke": "A guitar-related dad joke for motivation"
+        }
+    ]
+}`
+                }
             ],
         });
 
@@ -66,7 +102,6 @@ This is for a ${goal.skill} guitarist in the category of ${goal.category}. Alway
         return null;
     }
 }
-
 
 // Example call
 generateSubtask({ title: "Learn Neo Soul", category: "Learn a music theory concept", skill: "Intermediate" });
