@@ -12,6 +12,7 @@ const LogForm = ({ addTask }) => {
     e.preventDefault();
     setIsAddingTask(true)
     if (taskText.trim()) {
+      console.log(category)
       await addTask({
         id: Date.now(),
         name: taskText,
