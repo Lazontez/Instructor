@@ -39,7 +39,7 @@ async function generateSubtask(goal) {
             }, {
                 role: "user",
                 type: "json",
-                content: `Provide a detailed, structured task list for ${goal.title}. Format the response as JSON with Title(This should be a string datatype), Description(This should be a string datatype) and HandsOnTask(This should be an array with no more than 3 steps). This is for a ${goal.skill} guitarist. Always have hands on examples.`
+                content: `Provide a detailed, structured task list for ${goal.title}. Format the response as JSON with Title(This should be a string datatype), Description(This should be a string datatype) and HandsOnTask(This should be an array with no more than 3 steps). This is for a ${goal.skill} guitarist. Always have hands on examples. Before sending ALWAYS double check that it is in the correct format`
             },
         ],
     })
