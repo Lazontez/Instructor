@@ -35,8 +35,10 @@ async function generateSubtask(goal) {
                 If the user's request mentions a **song**, treat it as guitar-related and include guitar-specific tasks that the user can perform related to that song (such as learning riffs, solos, chord progressions, etc.) ***Please double check that this is formatted in the correct format mentioned previously***.
 
                 Formatting Rules: ${rules}
+
+                Before sending ALWAYS double check that it is in the correct format
                 `
-            }, {
+           }, {
                 role: "user",
                 type: "json",
                 content: `Provide a detailed, structured task list for ${goal.title}. Format the response as JSON with Title(This should be a string datatype), Description(This should be a string datatype) and HandsOnTask(This should be an array with no more than 3 steps). This is for a ${goal.skill} guitarist. Always have hands on examples. Before sending ALWAYS double check that it is in the correct format`
