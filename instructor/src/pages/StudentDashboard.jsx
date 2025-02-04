@@ -5,7 +5,7 @@ import '../utils/StudentDashboard.css';
 import apiTask from '../utils/api/tasks.js';
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios'; 
-
+import Header from '../components/Header.jsx'
 const StudentDashboard = () => {
   const [tasks, setTasks] = useState([]); 
 
@@ -37,6 +37,7 @@ const StudentDashboard = () => {
 
   return (
     <div className="student-dashboard">
+      <Header></Header>
       <header className="student-dashboard__header">
         <h1 className="student-dashboard__title">Student Dashboard</h1>
       </header>
