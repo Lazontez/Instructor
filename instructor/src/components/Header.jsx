@@ -36,7 +36,7 @@ const Header = () => {
                         <img
                             src={logo}
                             alt="Guitar Instructor Pro Logo"
-                            style={{ height: '60px', marginRight: '16px' }}
+                            style={{ height: '100px', marginRight: '16px' }}
                         />
                     </Box>
                     <Button
