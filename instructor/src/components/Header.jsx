@@ -5,49 +5,55 @@ import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
+import logo from '../assets/logos/pro-guitar-instructor-logo.png'
+import '../utils/Header.css'
+
 
 const Header = () => {
 
     const navigate = useNavigate()
 
-    const handleLogOut = ()=>{
-        console.log('Logging Out User')
+    const handleLogOut = () => {
         localStorage.removeItem('token')
         localStorage.removeItem('role')
         navigate('/login')
 
     }
-  return (
-    <AppBar
-      position="sticky"
-      sx={{
-        backgroundColor: '#1976d2',
-        boxShadow: 'none',
-        paddingX: 2, // Adds some spacing on the left and right
-      }}
-    >
-      <Container maxWidth="lg">
-        <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          {/* Left side - You can add a logo/title here */}
-          <Box sx={{ flexGrow: 1 }}> {/* Placeholder for a title or logo */} </Box>
-
-          {/* Right side - Logout Button */}
-          <Button
-            color="inherit"
+    return (
+        <AppBar
+            position="sticky"
             sx={{
-              padding: '6px 12px',
-              fontWeight: 'bold',
-              textTransform: 'none',
-              borderRadius: '8px',
+                backgroundColor: '#f4f4f9',
+                boxShadow: 'none',
+                color: 'black',  
             }}
-            onClick={handleLogOut}
-          >
-            Logout
-          </Button>
-        </Toolbar>
-      </Container>
-    </AppBar>
-  );
+        >
+            {/* Container creates horizontal space like modern navbars */}
+            <Container maxWidth="lg">
+                {/* disableGutters removes Toolbar's default left/right padding */}
+                <Toolbar disableGutters sx={{ minHeight: '50px' }}>
+                    <Box sx={{ flexGrow: 1 }}>
+                        <img
+                            src={logo}
+                            alt="Guitar Instructor Pro Logo"
+                            style={{ height: '60px', marginRight: '16px' }}
+                        />
+                    </Box>
+                    <Button
+                        color="inherit"
+                        sx={{
+                            textTransform: 'none',
+                            padding: '6px 12px',
+                        }}
+                        onClick={() => handleLogOut}
+                        id='logOutBtn'
+                    >
+                        Logout
+                    </Button>
+                </Toolbar>
+            </Container>
+        </AppBar>
+    );
 };
 
 export default Header;
