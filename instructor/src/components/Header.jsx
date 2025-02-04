@@ -44,8 +44,9 @@ const Header = () => {
                         sx={{
                             textTransform: 'none',
                             padding: '6px 12px',
+                            
                         }}
-                        onClick={() => handleLogOut}
+                        onClick={() => handleLogOut()}
                         id='logOutBtn'
                     >
                         Logout

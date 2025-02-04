@@ -36,8 +36,9 @@ const StudentDashboard = () => {
   };
 
   return (
-    <div className="student-dashboard">
+    <span>
       <Header></Header>
+    <div className="student-dashboard">
       <header className="student-dashboard__header">
         <h1 className="student-dashboard__title">Student Dashboard</h1>
       </header>
@@ -57,7 +58,7 @@ const StudentDashboard = () => {
       <div className="student-dashboard__placeholder">
         {/* Future Changes Here! */}
       </div>
-    </div>
+    </div></span>
   );
 };
 
