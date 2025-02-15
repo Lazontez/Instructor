@@ -36,7 +36,6 @@ async function generateSubtask(goal) {
                     Ensure that the response is wrapped inside triple backticks (\`\`\`json\\n and \`\`\`) and follows proper JSON structure.
                     
                     Formatting Rules: ${rules}
-
                     Before sending ALWAYS double-check that it is in the correct format.
                     `
                 },
@@ -44,9 +43,6 @@ async function generateSubtask(goal) {
                     role: "user",
                     type: "json",
                     content: `Provide a detailed, structured task list for ${goal.title}. Format the response as JSON with:
-                    - Title (string)
-                    - Description (string)
-                    - HandsOnTask (array, max 3 steps). 
                     This is for a ${goal.skill} guitarist. Always have hands-on examples.
                     
                     Before sending ALWAYS double-check that it is in the correct format.`
