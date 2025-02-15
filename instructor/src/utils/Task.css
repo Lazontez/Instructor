@@ -91,6 +91,7 @@
   background-color: #e53935;
 }
 
+
 /* Toggle button for showing subtasks */
 .task-list__item-toggle-btn {
   font-size: 14px;
@@ -102,7 +103,7 @@
 }
 
 .task-list__item-toggle-btn:hover {
-  color: #0056b3;
+  background-color: transparent;
 }
 
 /* Subtask list container */
