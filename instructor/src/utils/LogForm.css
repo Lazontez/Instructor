@@ -1,5 +1,6 @@
 /* --- General Styles --- */
 body {
+  justify-content:center ;
   margin: 0;
   font-family: 'Inter', sans-serif;
   background-color: #f7f9fc; /* Subtle light background */
@@ -21,8 +22,8 @@ body {
 
 /* Form Container */
 .log-form__container {
-  position: relative; /* Required for close button positioning */
-  background: #ffffff; /* White box for contrast */
+  position: relative; /* For positioning the close button */
+  background: #ffffff;
   padding: 20px;
   width: 90%;
   max-width: 400px;
@@ -33,6 +34,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center; /* Center the inner content */
 }
 
 @keyframes fadeIn {
@@ -55,22 +57,24 @@ body {
   border: none;
   font-size: 20px;
   font-weight: bold;
-  color: #4b5563; /* Neutral gray */
+  color: #4b5563;
   cursor: pointer;
   transition: color 0.3s ease-in-out;
+  z-index: 2;
 }
 
 .log-form__close-btn:hover {
-  color: #1d4ed8; /* Blue on hover */
+  color: #1d4ed8;
+  background-color: transparent;
+  font-size: 25px;
 }
 
 /* Title */
 .log-form__title {
   font-size: 20px;
   font-weight: bold;
-  color: #1a1a1a; /* Dark neutral */
+  color: #1a1a1a;
   margin-bottom: 15px;
-  text-align: center;
 }
 
 /* Input Fields */
@@ -80,16 +84,16 @@ body {
   width: 100%;
   margin-bottom: 15px;
   padding: 12px;
-  border: 1px solid #d1d5db; /* Light border */
+  border: 1px solid #d1d5db;
   border-radius: 8px;
   font-size: 14px;
-  background: #f9fafb; /* Light background */
+  background: #f9fafb;
 }
 
 .log-form__input:focus,
 .log-form__textarea:focus,
 .log-form__dropdown:focus {
-  border-color: #1d4ed8; /* Blue highlight */
+  border-color: #1d4ed8;
   box-shadow: 0 0 5px rgba(29, 78, 216, 0.5);
   outline: none;
 }
@@ -100,8 +104,8 @@ body {
   padding: 12px;
   font-size: 14px;
   font-weight: bold;
-  background: #1d4ed8; /* Blue button */
-  color: #ffffff; /* White text */
+  background: #1d4ed8;
+  color: #ffffff;
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -109,14 +113,13 @@ body {
 }
 
 .log-form__submit-btn:hover {
-  background: #2563eb; /* Slightly darker blue */
+  background: #2563eb;
 }
 
 /* Toggle Button */
 .log-form__toggle-btn {
-  margin: 20px;
   padding: 10px 20px;
-  background: #1d4ed8; /* Matches the form's theme */
+  background: #1d4ed8;
   color: #ffffff;
   border: none;
   border-radius: 8px;
@@ -128,4 +131,11 @@ body {
 
 .log-form__toggle-btn:hover {
   background: #2563eb;
+}
+
+/* Center the toggle container */
+.log-form__toggle-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
 }

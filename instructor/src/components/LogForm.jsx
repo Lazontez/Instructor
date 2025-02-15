@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
-import '../utils/LogForm.css'; 
+import ReactDOM from 'react-dom';
+import '../utils/LogForm.css';
 
 const LogForm = ({ addTask }) => {
   const [taskText, setTaskText] = useState('');
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('Music Theory');
   const [showForm, setShowForm] = useState(false);
-  const [isAddingTask , setIsAddingTask] = useState(false)
+  const [isAddingTask, setIsAddingTask] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsAddingTask(true)
+    setIsAddingTask(true);
     if (taskText.trim()) {
       await addTask({
         id: Date.now(),
@@ -24,7 +25,7 @@ const LogForm = ({ addTask }) => {
       setTaskText('');
       setDescription('');
       setCategory('Music Theory');
-      setIsAddingTask(false)
+      setIsAddingTask(false);
       setShowForm(false);
     }
   };
@@ -35,66 +36,70 @@ const LogForm = ({ addTask }) => {
 
   return (
     <>
-      <button className="log-form__toggle-btn" onClick={toggleForm}>
-        {showForm ? 'Cancel' : 'Add New Task'}
-      </button>
+      {/* Center the toggle button */}
+      <div className="log-form__toggle-container">
+        <button className="log-form__toggle-btn" onClick={toggleForm}>
+          {showForm ? 'Cancel' : 'Add New Task'}
+        </button>
+      </div>
 
-      {showForm && (
-        <div className="log-form__backdrop" onClick={() => setShowForm(false)}>
+      {showForm &&
+        ReactDOM.createPortal(
           <div
-            className="log-form__container"
-            onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside the form
+            className="log-form__backdrop"
+            onClick={() => setShowForm(false)}
           >
-            <button
-              className="log-form__close-btn"
-              onClick={() => setShowForm(false)}
+            <div
+              className="log-form__container"
+              onClick={(e) => e.stopPropagation()}
             >
-              &times;
-            </button>
-            <form className="log-form" onSubmit={handleSubmit}>
-              <h2 className="log-form__title">Add a New Task</h2>
-
-              <input
-                className="log-form__input"
-                type="text"
-                value={taskText}
-                onChange={(e) => setTaskText(e.target.value)}
-                placeholder="Task Name"
-                maxLength={50}
-                required
-              />
-
-              <textarea
-                className="log-form__textarea"
-                placeholder="Task Description (optional)"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              ></textarea>
-
-              <select
-                className="log-form__dropdown"
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
+              <button
+                className="log-form__close-btn"
+                onClick={() => setShowForm(false)}
               >
-                <option value="Music Theory">Music Theory</option>
-                <option value="Songs">Songs</option>
-                <option value="Technique">Technique</option>
-              </select>
-
-              <button className="log-form__submit-btn" type="submit">
-                {isAddingTask? "Adding Task...." : "Add Task"}
+                &times;
               </button>
-            </form>
-          </div>
-        </div>
-      )}
+              <form className="log-form" onSubmit={handleSubmit}>
+                <h2 className="log-form__title">Add a New Task</h2>
+
+                <input
+                  className="log-form__input"
+                  type="text"
+                  value={taskText}
+                  onChange={(e) => setTaskText(e.target.value)}
+                  placeholder="Task Name"
+                  maxLength={50}
+                  required
+                />
+
+                <textarea
+                  className="log-form__textarea"
+                  placeholder="Task Description (optional)"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                ></textarea>
+
+                <select
+                  className="log-form__dropdown"
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                >
+                  <option value="Music Theory">Music Theory</option>
+                  <option value="Songs">Songs</option>
+                  <option value="Technique">Technique</option>
+                </select>
+
+                <button className="log-form__submit-btn" type="submit">
+                  {isAddingTask ? 'Adding Task....' : 'Add Task'}
+                </button>
+              </form>
+            </div>
+          </div>,
+          document.body
+        )}
     </>
   );
 };
 
 export default LogForm;
-
-
-
-
 
