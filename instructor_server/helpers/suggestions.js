@@ -17,7 +17,7 @@ const rules = `
    - If the user's goal is unrelated to guitar, include "unrelated": true and ensure even this response adheres to the \`\`\`json\\n\` syntax.
 `;
 
-async function generateSubtask(goal) {
+export async function generateSubtask(goal) {
     try {
         const completion = await openai.chat.completions.create({
             model: "gpt-4o-mini",
@@ -58,6 +58,7 @@ async function generateSubtask(goal) {
 
         console.log("🔍 Raw API Response:\n", responseText);
 
+        // Extract JSON safely using regex
         const jsonMatch = responseText.match(/```json\n([\s\S]*?)\n```/);
         
         if (!jsonMatch) {
@@ -85,6 +86,7 @@ async function generateSubtask(goal) {
     }
 }
 
+// ✅ Example call
 generateSubtask({ title: "Learn 3 Little Birds by Bob Marley", skill: "beginner" })
     .then(result => console.log("🎸 Processed Task List:", result))
     .catch(err => console.error("🚨 Error:", err.message));
