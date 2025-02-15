@@ -17,7 +17,7 @@ const rules = `
    - If the user's goal is unrelated to guitar, include "unrelated": true and ensure even this response adheres to the \`\`\`json\\n\` syntax.
 `;
 
-export async function generateSubtask(goal) {
+async function generateSubtask(goal) {
     try {
         const completion = await openai.chat.completions.create({
             model: "gpt-4o-mini",
@@ -86,7 +86,6 @@ export async function generateSubtask(goal) {
     }
 }
 
-// ✅ Example call
-generateSubtask({ title: "Learn 3 Little Birds by Bob Marley", skill: "beginner" })
-    .then(result => console.log("🎸 Processed Task List:", result))
-    .catch(err => console.error("🚨 Error:", err.message));
+module.exports = generateSubtask
+// Front End Categories
+// 1. Learn a music theory concept 2. Learn a song 3. Performance 4. Practice Routine
