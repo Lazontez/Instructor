@@ -1,80 +1,112 @@
 const { OpenAI } = require('openai').default;
-const dotenv = require('dotenv')
-const result = dotenv.config()
+const dotenv = require('dotenv');
+dotenv.config();
 
 const openai = new OpenAI({
     apiKey: process.env.OPENAIAPIKEY
-})
+});
 
 const rules = `
-1. Formatting Rule: Always include the following syntax around the JSON response:
-   - Start the JSON response with \`\`\`json\\n\` (including the \\n for proper newline formatting).
-   - End the JSON response with \`\`\`.
-   - Ensure the JSON content is formatted properly and parsable.
-
-2. Validation: If this formatting is not applied, consider the response invalid.
-   - Responses must strictly adhere to the format and include the \`\`\`json\\n\` and \`\`\` syntax for consistency.
-   - If the user's goal is unrelated to guitar, include "unrelated": true and ensure even this response adheres to the \`\`\`json\\n\` syntax.
+1. Formatting Rule: Output a single JSON object without any additional text, markdown, or code fences.
+2. The JSON object must exactly follow this format:
+{
+  "main_goal": "string",
+  "subtasks": [  // Array of objects; must have between 3-5 subtasks
+    {
+      "name": "string",
+      "description": "string",
+      "task": [ "string", ... ], // Array of tasks (must be at least 3 steps in each task)
+      "dad_joke": "string"
+    }
+  ]
+}
+3. If the task is unrelated to guitar, output the following JSON object:
+{
+  "unrelated": true,
+  "Message": "This goal is not related to guitar tasks."
+}
+Ensure that the keys are exactly as specified (case sensitive).
 `;
+
+// Fix JSON string by ensuring all keys are wrapped in double quotes
+function fixJsonString(str) {
+    return str.replace(/([{,]\s*)([a-zA-Z0-9_]+)\s*:/g, '$1"$2":');
+}
+
 async function generateSubtask(goal) {
     const completion = await openai.chat.completions.create({
         model: "gpt-4o-mini",
         messages: [
             {
-                role: "system", content: `You are a guitar teacher with a calm and wise grandpa attitude, teaching a ${goal.skill} guitarist how to learn guitar, understand guitar amps, explore guitar effects, and related topics. Always respond in a structured JSON format with the following keys:
-                main_goal: A single overarching goal.
-                subtasks: An array of subtasks, where each subtask is an object with the following(This data template should be strictly followed. This should be in 4 steps):
-                name: The title of the subtask.
-                description: A detailed explanation of the subtask.
-                task: A practical activity the user can do to complete the subtask(This should be within 5 steps max).
-                dad_joke: A guitar-related dad joke for motivation.
-
-            
-                Only provide responses strictly related to guitar and related topics. Avoid any unrelated content. If you do not believe the users goal is related to guitar and you are highly confident that it is not related, add a key to the datatype called(unrelated and it should be a boolean value of true).If you think that it could possibly be related, Add the goal without the unrelated field, with the guitar related tasks and it should maintain the previously mentioned formatting rules. Before sending please confirm that is it in the data template desribed earlier
-                
-                If the user's request mentions a **song**, treat it as guitar-related and include guitar-specific tasks that the user can perform related to that song (such as learning riffs, solos, chord progressions, etc.) ***Please double check that this is formatted in the correct format mentioned previously***.
-
-                Formatting Rules: ${rules}
-
-                Before sending ALWAYS double check that it is in the correct format
-                `
-           }, {
-                role: "user",
-                type: "json",
-                content: `Provide a detailed, structured task list for ${goal.title}. Format the response as JSON with Title(This should be a string datatype), Description(This should be a string datatype) and HandsOnTask(This should be an array with no more than 3 steps). This is for a ${goal.skill} guitarist. Always have hands on examples. Before sending ALWAYS double check that it is in the correct format`
+                role: "system",
+                content: `You are a guitar teacher with a calm, wise, grandpa attitude. Your job is to provide guitar-related tasks strictly in the following JSON format:
+${rules}
+If the provided goal involves a song (e.g., "3 Little Birds by Bob Marley") or is clearly related to guitar, provide a detailed task list following the above format. If it is unrelated to guitar, output the JSON for unrelated as specified.
+Do not include any additional text, markdown formatting, or explanations. Output only the raw JSON object.`
             },
+            {
+                role: "user",
+                content: `Provide a detailed, structured task list for "${goal.title}" for a ${goal.skill} guitarist. Include hands-on examples.`
+            }
         ],
-    })
+    });
 
     const responseText = completion.choices[0].message.content;
+    console.log("Raw AI response:", responseText);
 
-    const start = responseText.indexOf('{');
-    const end = responseText.lastIndexOf("```");
-
-    if (start !== -1 && end !== -1) {
-
-        const jsonString = responseText.slice(start, end).trim();
-
-        try {
-            const response = JSON.parse(jsonString);
-
-            if (response.unrelated) {
-                return ({ "unrelated": true })
-            }
-            else {
-                return (response.subtasks)
-            }
-        } catch (error) {
-            console.error("JSON parsing failed:", error.message);
-            return []
-        }
+    // Extract JSON from code block if present; otherwise assume the whole response is JSON.
+    let jsonString;
+    const codeBlockMatch = responseText.match(/```json\s*([\s\S]*?)\s*```/);
+    if (codeBlockMatch && codeBlockMatch[1]) {
+        jsonString = codeBlockMatch[1].trim();
     } else {
-        console.error("Could not locate JSON content.");
-        return
+        jsonString = responseText.trim();
+    }
+
+    console.log("Extracted JSON before fix:", jsonString);
+    jsonString = fixJsonString(jsonString);
+    console.log("Extracted JSON after fix:", jsonString);
+
+    try {
+        const parsed = JSON.parse(jsonString);
+        if (parsed.unrelated === true) {
+            return parsed;
+        }
+        if (!parsed.main_goal || !parsed.subtasks) {
+            console.error("Parsed JSON does not contain 'main_goal' or 'subtasks'.");
+            return { error: "Invalid JSON structure." };
+        }
+      
+        const transformedGoal = {
+            name: parsed.main_goal,
+            description: parsed.description || "",
+            subtasks: parsed.subtasks.map(sub => ({
+                name: sub.name,
+                description: sub.description || "",
+                task: sub.task
+            }))
+        };
+
+        const validSubtasks = transformedGoal.subtasks.every(sub =>
+            sub.name && Array.isArray(sub.task)
+        );
+        if (!validSubtasks) {
+            console.error("One or more subtasks do not have the required fields.");
+            return { error: "Invalid subtask structure." };
+        }
+        return transformedGoal.subtasks;
+    } catch (error) {
+        console.error("JSON parsing failed:", error.message);
+        return { error: "JSON parsing failed" };
     }
 }
-generateSubtask({ title: "Learn 3 Little Birds by Bob Marley" })
 
-module.exports = generateSubtask
-// Front End Categories
-// 1. Learn a music theory concept 2. Learn a song 3. Performance 4. Practice Routine
+generateSubtask({ title: "Learn 3 Little Birds by Bob Marley", skill: "intermediate" })
+  .then(result => {
+      console.log("Final result:", result);
+  })
+  .catch(err => {
+      console.error("Error generating subtask:", err);
+  });
+
+module.exports = generateSubtask;

@@ -6,33 +6,33 @@ const testID = new mongoose.Types.ObjectId();
 const authMiddleware = require('../middleware/authenticationMiddleware');
 const suggestions = require('../helpers/suggestions.js')
 
-
-
-// Test Data Above For UserID
-
 // Create a new goal
-router.post('/c',authMiddleware, async (req, res) => {
-  console.log('Creating New Goal')
+router.post('/c', authMiddleware, async (req, res) => {
+  console.log('Creating New Goal');
   try {
     const { name, description, status, category } = req.body;
-    const user = req.user.id
-    const userExp = req.user.experience
-    const subtaskSuggestion = status === "completed"? [] : await suggestions({title: name, skill:userExp || 'Beginner', category:category});
+    const user = req.user.id;
+    const userExp = req.user.experience;
+    
+  
+    const subtaskSuggestion = status === "completed" ? [] : await suggestions({ title: name, skill: userExp || 'Beginner', category: category });
+    
     const newGoal = await new Goal({
       name,
       description,
       userId: user,
-      subtasks: subtaskSuggestion,
+      subtasks: subtaskSuggestion, // changed to array of subtasks
       status
     });
 
     await newGoal.save();
     res.status(201).json(newGoal);
   } catch (error) {
-    console.log(error)
+    console.log(error);
     res.status(500).json({ message: 'Failed to create goal' });
   }
 });
+
 // Remove a goal
 router.delete('/r/:goalId',authMiddleware, async (req, res) => {
   try {
@@ -44,7 +44,7 @@ router.delete('/r/:goalId',authMiddleware, async (req, res) => {
 
     res.status(200).json({ message: 'Goal deleted successfully' });
   } catch (err) {
-    console.error(err); // Log the error for debugging
+    console.error(err); // Logging errors for debugging
     res.status(500).json({ message: 'Failed to delete goal', error: err.message });
   }
 });
