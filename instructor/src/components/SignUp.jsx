@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import '../utils/Login.css';  // Keep your custom styles if needed
+import '../utils/Login.css'; 
 import axios from 'axios';
+import { isUserVerified } from '../utils/hooks/betaAcces';
 
 // MUI imports
 import { TextField, Button, Container, Typography, Box, ThemeProvider, createTheme, FormControl, Select, InputLabel, MenuItem } from '@mui/material';
@@ -32,6 +33,12 @@ const SignUp = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
+   useEffect(() => {
+      if (!isUserVerified()) {
+        navigate("/home"); 
+      }
+    }, [navigate]);
+  
   const onSignUp = () => {
     if (password !== confirmPassword) {
       setError('Passwords do not match.');

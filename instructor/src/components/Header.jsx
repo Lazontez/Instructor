@@ -49,7 +49,7 @@ const Header = () => {
                         color="inherit"
                         sx={{
                             textTransform: 'none',
-                            padding: '6px 12px',
+                            padding: '3px 6px',
                         }}
                         onClick={handleLogOut} 
                         id="logOutBtn"

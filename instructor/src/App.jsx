@@ -4,6 +4,7 @@ import Login from './components/Login.jsx';
 import SignUp from './components/SignUp.jsx';
 import TeacherDashboard from './pages/TeacherDashboard.jsx';
 import StudentDashboard from './pages/StudentDashboard.jsx';
+import BrandPage from './pages/BrandPage.jsx';
 import { AuthProvider } from './contexts/AuthContext.jsx';
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/home" element={<BrandPage />}></Route>
           <Route path="/dashboard" element={<RoleBasedDashboard />} />
           <Route path="*" element={<FallbackRedirect />} />
         </Routes>

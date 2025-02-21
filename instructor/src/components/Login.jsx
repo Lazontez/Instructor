@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import { useAuth } from '../utils/hooks/auth.jsx';
-
-// MUI imports
+import { isUserVerified } from '../utils/hooks/betaAcces.jsx';
 import { TextField, Button, Container, Typography, Box, ThemeProvider, createTheme } from '@mui/material';
 
 const theme = createTheme({
@@ -30,6 +29,13 @@ const Login = () => {
   const { setIsAuthenticated, setUserRole } = useAuth();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (!isUserVerified()) {
+      navigate("/home");
+    }
+  }, [navigate]);
+
+
   // Function to store user data and update auth state
   const handleAuthSuccess = (token) => {
     try {
@@ -38,7 +44,7 @@ const Login = () => {
       localStorage.setItem('role', decodedToken.role);
 
       setUserRole(decodedToken.role);
-      setIsAuthenticated(true); // Will trigger re-render in protected routes
+      setIsAuthenticated(true); 
 
       navigate('/dashboard');
     } catch (err) {

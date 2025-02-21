@@ -1,9 +1,9 @@
 /* --- General Styles --- */
 body {
-  justify-content:center ;
+  justify-content:ce ;
   margin: 0;
   font-family: 'Inter', sans-serif;
-  background-color: #f7f9fc; /* Subtle light background */
+  background-color: #f7f9fc; 
 }
 
 /* Backdrop (darkens screen) */
