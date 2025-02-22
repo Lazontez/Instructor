@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import '../utils/LogForm.css';
 
-const LogForm = ({ addTask }) => {
+const LogForm = ({ addTask, taskCount }) => {
   const [taskText, setTaskText] = useState('');
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('Music Theory');
   const [showForm, setShowForm] = useState(false);
   const [isAddingTask, setIsAddingTask] = useState(false);
+
+  useEffect(() => {
+    console.log("LogForm: Current task count is", taskCount);
+  }, [taskCount]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,15 +35,25 @@ const LogForm = ({ addTask }) => {
   };
 
   const toggleForm = () => {
-    setShowForm(!showForm);
+    if (taskCount < 3) {
+      setShowForm(!showForm);
+    }
   };
 
   return (
     <>
-      {/* Center the toggle button */}
       <div className="log-form__toggle-container">
-        <button className="log-form__toggle-btn" onClick={toggleForm}>
-          {showForm ? 'Cancel' : 'Add New Task'}
+        <button
+          className="log-form__toggle-btn"
+          onClick={toggleForm}
+          disabled={taskCount >= 3}
+          title={taskCount >= 3 ? 'Only 3 tasks can be added at a time' : ''}
+        >
+          {taskCount >= 3
+            ? `Beta: Max tasks reached (${taskCount}/3. Delete a task to retry)`
+            : showForm
+            ? 'Cancel'
+            : `Add New Task (${taskCount}/3)`}
         </button>
       </div>
 
@@ -102,4 +116,3 @@ const LogForm = ({ addTask }) => {
 };
 
 export default LogForm;
-

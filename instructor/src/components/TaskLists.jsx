@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import TaskModal from '../components/TaskEditModal';
-import '../utils/Task.css'
-import apiTask from '../utils/api/tasks.js'
-import SubTaskToolTip from '../components/SubTaskToolTip.jsx'
+import '../utils/Task.css';
+import apiTask from '../utils/api/tasks.js';
+import SubTaskToolTip from '../components/SubTaskToolTip.jsx';
+
 const TaskList = ({ tasks, setTasks }) => {
   const [expandedTaskId, setExpandedTaskId] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentTask, setCurrentTask] = useState(null);
 
-
   const removeTask = async (taskId) => {
     try {
-      const token = localStorage.getItem('token')
+      const token = localStorage.getItem('token');
       await apiTask.removeTask(taskId, token);
       const updatedTasks = tasks.filter(task => task._id !== taskId);
       setTasks(updatedTasks);
@@ -20,24 +20,21 @@ const TaskList = ({ tasks, setTasks }) => {
     }
   };
 
-  // Function to open the edit modal
   const openEditModal = (task) => {
     setCurrentTask(task);
-    setIsModalOpen(true); // Open the modal to edit the task
+    setIsModalOpen(true);
   };
 
-  // Function to save an edited task
   const saveTask = async (updatedTask) => {
     const updatedTasks = tasks.map(task =>
       task._id === updatedTask._id ? updatedTask : task
     );
-    const token = localStorage.getItem('token')
-    await apiTask.editTask(updatedTask._id, token,updatedTask); 
+    const token = localStorage.getItem('token');
+    await apiTask.editTask(updatedTask._id, token, updatedTask);
     setTasks(updatedTasks);
     closeModal();
   };
 
-  // Close the modal
   const closeModal = () => {
     setIsModalOpen(false);
     setCurrentTask(null);
@@ -52,13 +49,13 @@ const TaskList = ({ tasks, setTasks }) => {
   const toggleSubtasks = (taskId) => {
     setExpandedTaskId((prevTaskId) => (prevTaskId === taskId ? null : taskId));
   };
+
   const handleChange = (task, subtask) => async (event) => {
     const updatedSubtask = { 
       ...subtask, 
       status: event.target.checked ? 'completed' : 'incomplete' 
     };
-  
-    // Update the local subtask
+
     const updatedTasks = tasks.map(t =>
       t._id === task._id
         ? { 
@@ -70,9 +67,8 @@ const TaskList = ({ tasks, setTasks }) => {
         : t
     );
     setTasks(updatedTasks);
-  
+
     try {
-   
       const token = localStorage.getItem('token');
       await apiTask.editTask(task._id, token, {
         subtasks: task.subtasks.map(st => 
@@ -83,12 +79,12 @@ const TaskList = ({ tasks, setTasks }) => {
       console.error('Error updating task:', error);
     }
   };
-  
-
-  
 
   return (
     <div className="task-list">
+      <div className="task-list__header">
+        <h3>Tasks: {tasks.length}/3</h3>
+      </div>
       {tasks.length > 0 ? (
         tasks.map((task) => (
           <div key={task._id} className="task-list__item">
@@ -109,7 +105,6 @@ const TaskList = ({ tasks, setTasks }) => {
               >
                 Edit
               </button>
-
               <button
                 className="task-list__item-delete-btn"
                 onClick={() => removeTask(task._id)}
@@ -117,7 +112,6 @@ const TaskList = ({ tasks, setTasks }) => {
                 Remove
               </button>
             </div>
-            {/* Subtask dropdown */}
             <div>
               <button
                 className="task-list__item-toggle-btn"
@@ -127,9 +121,12 @@ const TaskList = ({ tasks, setTasks }) => {
               </button>
               {expandedTaskId === task._id && (
                 <ul className="task-list__subtasks">
-                  {(task.status === 'completed'?
-                  <div className='task-completed-msg'>Goal Completed—good job, lets keep going!</div>
-                :task.subtasks.map((subtask, index) => (
+                  {task.status === 'completed' ? (
+                    <div className="task-completed-msg">
+                      Goal Completed—good job, lets keep going!
+                    </div>
+                  ) : (
+                    task.subtasks.map((subtask, index) => (
                       <li key={index} className="task-list__subtask-item">
                         <input
                           onChange={handleChange(task, subtask)}
@@ -137,10 +134,10 @@ const TaskList = ({ tasks, setTasks }) => {
                           checked={subtask.status === 'completed'}
                         />
                         <span>{subtask.name}</span>
-                        <SubTaskToolTip description={subtask.description} handsOnTask={subtask.task}/>
+                        <SubTaskToolTip description={subtask.description} handsOnTask={subtask.task} />
                       </li>
                     ))
-                )}
+                  )}
                 </ul>
               )}
             </div>
@@ -149,8 +146,6 @@ const TaskList = ({ tasks, setTasks }) => {
       ) : (
         <p className="task-list__empty">No tasks available</p>
       )}
-
-      {/* Modal for editing tasks */}
       {isModalOpen && (
         <TaskModal
           task={currentTask}
@@ -164,6 +159,7 @@ const TaskList = ({ tasks, setTasks }) => {
 };
 
 export default TaskList;
+
 
 
 

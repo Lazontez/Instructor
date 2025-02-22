@@ -1,24 +1,24 @@
 // StudentDashboard.jsx
 import React, { useState, useEffect } from 'react';
-import TaskList from '../components/TaskLists/'; 
-import LogForm from '../components/LogForm.jsx'; 
-import '../utils/StudentDashboard.css'; 
+import TaskList from '../components/TaskLists/';
+import LogForm from '../components/LogForm.jsx';
+import '../utils/StudentDashboard.css';
 import apiTask from '../utils/api/tasks.js';
 import { jwtDecode } from 'jwt-decode';
 import Header from '../components/Header.jsx';
 
 const StudentDashboard = () => {
-  const [tasks, setTasks] = useState([]); 
+  const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
     const fetchTasks = async () => {
       const token = localStorage.getItem('token');
-      const decodedToken = jwtDecode(token); 
+      const decodedToken = jwtDecode(token);
       const userId = decodedToken.id;
-      
+
       try {
-        const userTasks = await apiTask.getTasks(userId, token); 
-        setTasks(userTasks); 
+        const userTasks = await apiTask.getTasks(userId, token);
+        setTasks(userTasks);
       } catch (error) {
         console.error('Failed to fetch tasks:', error);
       }
@@ -45,14 +45,13 @@ const StudentDashboard = () => {
           <div className="student-dashboard__task-list">
             <h2 className="student-dashboard__section-title">Your Tasks</h2>
             {/* Moved LogForm here */}
-            <LogForm addTask={addTask} />
+            <LogForm addTask={addTask} taskCount={tasks.length} />
             <TaskList tasks={tasks} setTasks={setTasks} />
+
           </div>
-          {/* Removed the separate log form column */}
         </div>
 
         <div className="student-dashboard__placeholder">
-          {/* Future Changes Here! */}
         </div>
       </div>
     </>
