@@ -1,0 +1,80 @@
+/* Ensure consistency with your existing theme */
+
+.brands-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 100vh;
+    background-color: var(--background-color, #f9f9f9);
+    color: var(--text-color, #333);
+    padding: 2rem;
+}
+
+/* Hero section for an interesting image */
+.hero {
+    width: 100%;
+    max-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+
+.hero img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    opacity: 0.85;
+}
+
+/* Brand list container */
+.brands-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    width: 100%;
+    max-width: 1200px;
+    padding: 1rem;
+}
+
+.brand-card {
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.brand-card:hover {
+    transform: translateY(-5px);
+}
+
+.brand-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: contain;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+}
+
+.brand-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Responsive Tweaks */
+@media (max-width: 768px) {
+    .brands-container {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+    .hero {
+        max-height: 300px;
+    }
+}
